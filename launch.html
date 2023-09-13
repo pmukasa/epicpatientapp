@@ -39,14 +39,22 @@
       'iss': 'https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4'
     }); */
 
+		/*
 const crypto = require('crypto');
 
 function generateStateValue(length = 32) {
     return crypto.randomBytes(length).toString('hex');
 }
 
-/*const state = generateStateValue();
+const state = generateStateValue();
 console.log(state);*/
+
+		function generateStateValue(length = 32) {
+    const array = new Uint8Array(length);
+    window.crypto.getRandomValues(array);
+
+    return Array.from(array).map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
 
 		FHIR.oauth2.authorize({
 			'client_id': 'a19866e8-bdf3-4f53-85c8-7e399b4154fe',
