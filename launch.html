@@ -39,9 +39,19 @@
       'iss': 'https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4'
     }); */
 
+const crypto = require('crypto');
+
+function generateStateValue(length = 32) {
+    return crypto.randomBytes(length).toString('hex');
+}
+
+const state = generateStateValue();
+/*console.log(state);*/
+
 		FHIR.oauth2.authorize({
 			'client_id': 'a19866e8-bdf3-4f53-85c8-7e399b4154fe',
 			'scope': 'PATIENT.READ, PATIENT.SEARCH, OBSERVATION.READ, OBSERVATION.SEARCH',
+			'state': state
 			'redirect_uri': 'https://pmukasa.github.io/epicpatientapp/app.html',
 			'iss': 'https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d'
 		});
