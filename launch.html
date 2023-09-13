@@ -51,7 +51,7 @@ console.log(state);*/
 		FHIR.oauth2.authorize({
 			'client_id': 'a19866e8-bdf3-4f53-85c8-7e399b4154fe',
 			'scope': 'PATIENT.READ, PATIENT.SEARCH, OBSERVATION.READ, OBSERVATION.SEARCH',
-			'state': generateStateValue()
+			'state': generateStateValue(),
 			'redirect_uri': 'https://pmukasa.github.io/epicpatientapp/app.html',
 			'aud': 'https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d'
 		});
