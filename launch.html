@@ -61,7 +61,7 @@
           // iss: "https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
         },
       ]); */
-
+/*
       		FHIR.oauth2.authorize({
       'client_id': '12d221e3-f893-408f-bba2-b9cf72e6438e',
       'scope':  'PATIENT.READ PATIENT.SEARCH OBSERVATION.READ OBSERVATION.SEARCH',
@@ -69,7 +69,7 @@
       // 'iss': 'https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4'
     }); 
 
-/**
+*/
 		function generateStateValue(length = 32) {
     const array = new Uint8Array(length);
     window.crypto.getRandomValues(array);
@@ -82,9 +82,9 @@
     'scope': 'patient/Patient.read patient/Observation.read online_access openid profile',
     'state': generateStateValue(),
     'redirect_uri': 'https://pmukasa.github.io/epicpatientapp/app.html',
-    'aud': 'https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d',
-    'iss': 'https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d'
-}); */
+    // 'aud': 'https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d',
+    // 'iss': 'https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d'
+}); 
     </script>
   </body>
 </html>
