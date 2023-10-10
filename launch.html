@@ -6,9 +6,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <!-- <script src="./dist/fhir-client-v2.js">
-      console.log("successfully loaded the files")
-    </script> -->
     <script src="./dist/fhirclient/build/fhir-client.js"></script>
   </head>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -48,7 +45,6 @@
           scope:
             "PATIENT.READ PATIENT.SEARCH OBSERVATION.READ OBSERVATION.SEARCH",
           redirect_uri: "https://pmukasa.github.io/epicpatientapp/app.html",
-          // iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
         },
 
         {
@@ -58,8 +54,6 @@
             "patient/Patient.read patient/Observation.read online_access openid profile",
           state: generateStateValue(),
           redirect_uri: "https://pmukasa.github.io/epicpatientapp/app.html",
-          // aud: "https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
-          // iss: "https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
         },
       ]);
       /*
@@ -71,13 +65,6 @@
     }); 
 
 
-		function generateStateValue(length = 32) {
-    const array = new Uint8Array(length);
-    window.crypto.getRandomValues(array);
-
-    return Array.from(array).map(byte => byte.toString(16).padStart(2, '0')).join('');
-}
-		
 		FHIR.oauth2.authorize({
     'client_id': 'a19866e8-bdf3-4f53-85c8-7e399b4154fe',
     'scope': 'patient/Patient.read patient/Observation.read online_access openid profile',
