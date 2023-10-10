@@ -22,8 +22,18 @@
 
       FHIR.oauth2.ready().then(function (client) {
         myApp.smart = client;
+        // console.log(client);
+        pullRecords;
         doRequests();
       });
+
+      async function pullRecords() {
+        myApp.smart.client
+          .request("/Observation", { pageLimit: 0 })
+          .then(function (fhir_resource) {
+            console.log(fhir_resource);
+          });
+      }
 
       async function doRequests() {
         var loincs = [encodeURIComponent("http://loinc.org|4548-4")]; //4548-4 = HgA1C  //4544-3 = hematocrit
@@ -46,7 +56,7 @@
 
         var response = await obs.json();
 
-        console.log(response);
+        // console.log(response);
 
         var toInsert = "";
 
