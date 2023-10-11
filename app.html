@@ -59,7 +59,7 @@ console.log(myApp.smart.patient.id);
 
       async function pullRecords() {
         myApp.smart
-          .request("/Observation", { pageLimit: 0 })
+          .request("Observation", { pageLimit: 0 })
           .then(function (fhir_resource) {
             console.log(fhir_resource);
           });
