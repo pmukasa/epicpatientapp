@@ -23,8 +23,9 @@
       FHIR.oauth2.ready().then(function (client) {
         // console.log(client); // added by me
         myApp.smart = client;
-        pullRecords;
-        doRequests();
+        // pullRecords;
+        console.log(client.patient.request("Observation"));
+        // doRequests();
       });
 
       async function pullRecords() {
