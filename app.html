@@ -24,11 +24,7 @@
         // console.log(client); // added by me
         myApp.smart = client;
 
-        client.patient.read().then(function(response) {
-    console.log(response); // Print the patient data
-}).catch(function(error) {
-    console.error(error);      // Handle any errors
-});
+
 
       // console.log(client);
 
@@ -47,7 +43,18 @@
         // pullRecords;
         // console.log(client.patient.request("Observation"));
         // doRequests();
+console.log(myApp.smart.patient.id);
+        testPull();
       });
+
+      async function testPull(){
+
+                myApp.smart.patient.read().then(function(response) {
+    console.log(response); // Print the patient data
+}).catch(function(error) {
+    console.error(error);      // Handle any errors
+});
+      }
 
       async function pullRecords() {
         myApp.smart.client
