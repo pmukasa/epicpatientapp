@@ -24,17 +24,23 @@
         // console.log(client); // added by me
         myApp.smart = client;
 
-      console.log(client);
+        client.patient.read().then(function(response) {
+    console.log(response.data); // Print the patient data
+}).catch(function(error) {
+    console.error(error);      // Handle any errors
+});
 
-      console.log("check mark: 1");
+      // console.log(client);
 
-      console.log(client.request("Patient/id"));
+      // console.log("check mark: 1");
 
-      console.log("check mark: 2");
+      // console.log(client.request("Patient/id"));
 
-      console.log(client.request("Patient", { pageLimit: 0 }));
+      // console.log("check mark: 2");
 
-      console.log("check mark: 3");
+      // console.log(client.request("Patient", { pageLimit: 0 }));
+
+      // console.log("check mark: 3");
 
 
         
