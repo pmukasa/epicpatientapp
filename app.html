@@ -23,6 +23,21 @@
       FHIR.oauth2.ready().then(function (client) {
         // console.log(client); // added by me
         myApp.smart = client;
+
+      console.log(client);
+
+      console.log("check mark: 1");
+
+      console.log(client.request("Patient/id"));
+
+      console.log("check mark: 2");
+
+      console.log(client.request("Patient", { pageLimit: 0 }));
+
+      console.log("check mark: 3");
+
+
+        
         // pullRecords;
         console.log(client.patient.request("Observation"));
         // doRequests();
