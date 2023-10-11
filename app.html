@@ -25,7 +25,7 @@
         myApp.smart = client;
 
         client.patient.read().then(function(response) {
-    console.log(response.data); // Print the patient data
+    console.log(response); // Print the patient data
 }).catch(function(error) {
     console.error(error);      // Handle any errors
 });
