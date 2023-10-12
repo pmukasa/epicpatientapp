@@ -51,11 +51,13 @@
 
         console.log(myApp.smart.getAuthorizationHeader()) // passed
 
-        console.log(headerdata());
+        console.log(headerdata()); // passed
 
         console.log("check mark: 3");
 
-        pullRecords();
+        console.log(myApp.smart.request("metadata"))
+
+        // pullRecords();
       });
 
       async function headerdata() {
