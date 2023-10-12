@@ -24,37 +24,57 @@
         // console.log(client); // added by me
         myApp.smart = client;
 
+        // console.log(client);
 
+        // console.log("check mark: 1");
 
-      // console.log(client);
+        // console.log(client.request("Patient/id"));
 
-      // console.log("check mark: 1");
+        // console.log("check mark: 2");
 
-      // console.log(client.request("Patient/id"));
+        // console.log(client.request("Patient", { pageLimit: 0 }));
 
-      // console.log("check mark: 2");
+        // console.log("check mark: 3");
 
-      // console.log(client.request("Patient", { pageLimit: 0 }));
-
-      // console.log("check mark: 3");
-
-
-        
         // pullRecords;
         // console.log(client.patient.request("Observation"));
         // doRequests();
-console.log(myApp.smart.patient.id);
-        testPull();
+
+        console.log(myApp.smart.patient.id); // passed
+
+        console.log("check mark: 1");
+
+        testPull(); // passed
+
+        console.log("check mark: 2");
+
+        headerdata();
+
+        console.log("check mark: 3");
+
         // pullRecords();
       });
 
-      async function testPull(){
+      async function headerdata() {
+        myApp.smart
+          .getAuthorizationHeader()
+          .then(function (header) {
+            console.log(header);
+          })
+          .catch(function (error) {
+            console.error(error); // Handle any errors
+          });
+      }
 
-                myApp.smart.patient.read().then(function(response) {
-    console.log(response); // Print the patient data
-}).catch(function(error) {
-    console.error(error);      // Handle any errors
-});
+      async function testPull() {
+        myApp.smart.patient
+          .read()
+          .then(function (response) {
+            console.log(response); // Print the patient data
+          })
+          .catch(function (error) {
+            console.error(error); // Handle any errors
+          });
       }
 
       async function pullRecords() {
