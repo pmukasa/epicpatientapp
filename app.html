@@ -50,7 +50,7 @@
 
         console.log(myApp.smart.getAuthorizationHeader())
 
-        // headerdata();
+        headerdata();
 
         console.log("check mark: 3");
 
@@ -58,7 +58,7 @@
       });
 
       async function headerdata() {
-        myApp.smart
+        await myApp.smart
           .getAuthorizationHeader()
           .then(function (header) {
             console.log(header);
