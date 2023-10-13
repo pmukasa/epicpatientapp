@@ -40,7 +40,6 @@
         // console.log(client.patient.request("Observation"));
         // doRequests();
 
-
         // console.log(myApp.smart.patient.id); // passed
 
         console.log("check mark: 1");
@@ -51,7 +50,7 @@
 
         //console.log(myApp.smart.getAuthorizationHeader()) // passed
 
-       //  console.log(headerdata()); // passed
+        //  console.log(headerdata()); // passed
 
         console.log("check mark: 3");
 
@@ -59,18 +58,19 @@
 
         console.log(myApp.smart);
 
+        pullRecords2();
+
         // pullRecords();
       });
 
       async function headerdata() {
-        return myApp.smart
-          .getAuthorizationHeader()
-          // .then(function (header) {
-          //   console.log(header);
-          // })
-          // .catch(function (error) {
-          //   console.error(error); // Handle any errors
-          // });
+        return myApp.smart.getAuthorizationHeader();
+        // .then(function (header) {
+        //   console.log(header);
+        // })
+        // .catch(function (error) {
+        //   console.error(error); // Handle any errors
+        // });
       }
 
       async function testPull() {
@@ -90,6 +90,29 @@
           .then(function (fhir_resource) {
             console.log(fhir_resource);
           });
+      }
+
+      async function pullRecords2() {
+        var obs = await fetch(
+          myApp.smart.state.serverUrl +
+            "/Observation?patient=" +
+            myApp.smart.patient.id +
+            "&limit=50",
+          {
+            headers: {
+              Accept: "application/json+fhir",
+              // myApp.smart.getAuthorizationHeader()
+              Authorization:
+                "Bearer " + myApp.smart.state.tokenResponse.access_token,
+            },
+          }
+        ).then(function (data) {
+          return data;
+        });
+
+        var response = await obs.json();
+
+        console.log(response);
       }
 
       async function doRequests() {
