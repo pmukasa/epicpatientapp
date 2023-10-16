@@ -74,7 +74,7 @@
 
         //codes.map(code => pullRecords2(code));
 
-        pullRecords2("vital-signs,imaging");
+        pullRecords2(codes);
 
         // pullRecords();
       });
@@ -108,7 +108,7 @@
           });
       }
 
-      async function pullRecords2(observation_code) {
+      async function pullRecords2(observation_codes) {
         // var loincs = [encodeURIComponent("http://loinc.org|4548-4")]; //4548-4 = HgA1C  //4544-3 = hematocrit
         // console.log(loincs);
 
@@ -117,7 +117,7 @@
             "/Observation?patient=" +
             myApp.smart.patient.id +
             "&category=" +
-            observation_code,
+            observation_codes.join(","),
           {
             headers: {
               Accept: "application/json+fhir",
