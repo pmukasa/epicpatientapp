@@ -60,6 +60,20 @@
 
         pullRecords2();
 
+        var codes = [
+          "social-history",
+          "vital-signs",
+          "imaging",
+          "laboratory",
+          "procedure",
+          "survey",
+          "exam",
+          "therapy",
+          "activity",
+        ];
+
+        codes.map(code => pullRecords2(code));
+
         // pullRecords();
       });
 
@@ -92,15 +106,16 @@
           });
       }
 
-      async function pullRecords2() {
-        var loincs = [encodeURIComponent("http://loinc.org|4548-4")]; //4548-4 = HgA1C  //4544-3 = hematocrit
-        console.log(loincs);
+      async function pullRecords2(observation_code) {
+        // var loincs = [encodeURIComponent("http://loinc.org|4548-4")]; //4548-4 = HgA1C  //4544-3 = hematocrit
+        // console.log(loincs);
 
         var obs = await fetch(
           myApp.smart.state.serverUrl +
             "/Observation?patient=" +
             myApp.smart.patient.id +
-            "&category=vital-signs",
+            "&category=" +
+            observation_code,
           {
             headers: {
               Accept: "application/json+fhir",
