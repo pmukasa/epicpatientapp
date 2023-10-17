@@ -135,7 +135,16 @@
 
         var response = await obs.json();
 
-        console.log(response.entry);
+        console.log(response);
+
+        for (let i in response.entry){
+
+          if (response.entry[i].resource.category[0].coding[0]['code'] === 'social-history' ){
+            
+            console.log(response.entry[i]);
+          }
+
+        };
       }
 
       async function doRequests() {
