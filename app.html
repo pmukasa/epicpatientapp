@@ -137,14 +137,22 @@
 
         console.log(response);
 
-        for (let i in response.entry){
-
-          if (response.entry[i].resource.category[0].coding[0]['code'] === 'social-history' ){
-            
+        for (let i in response.entry) {
+          if (
+            response.entry[i].resource.category[0].coding[0]["code"] ===
+            "social-history"
+          ) {
             console.log(response.entry[i]);
-          }
 
-        };
+            const datafields = {
+              date: response.entry[i].resource.code.effectiveDateTime,
+              observation: response.entry[i].resource.code.coding.text,
+              state: response.entry[i].resource.valueCodeableConcept.text,
+            };
+
+            console.log(datafields);
+          }
+        }
       }
 
       async function doRequests() {
