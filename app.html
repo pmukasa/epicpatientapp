@@ -59,7 +59,10 @@
         console.log(myApp.smart);
 
         //pullRecords2();
-
+        /*
+        Details of the various Observation categories can be found here:
+        https://build.fhir.org/valueset-observation-category.html#expansion
+        */
         var codes = [
           "social-history",
           "vital-signs",
@@ -127,7 +130,7 @@
             },
           }
         ).then(function (data) {
-          return data;
+          return data.entry;
         });
 
         var response = await obs.json();
