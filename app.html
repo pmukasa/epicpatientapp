@@ -130,12 +130,12 @@
             },
           }
         ).then(function (data) {
-          return data.entry;
+          return data;
         });
 
         var response = await obs.json();
 
-        console.log(response);
+        console.log(response.entry);
       }
 
       async function doRequests() {
