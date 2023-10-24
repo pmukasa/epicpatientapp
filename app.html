@@ -147,8 +147,8 @@
             console.log(response.entry[i]);
 
             const datafields = {
-              date: response.entry[i].resource?.code?.effectiveDateTime || '',
-             observation: response.entry[i].resource?.code?.coding?.text || '',
+              date: response.entry[i].resource?.effectiveDateTime || '',
+             observation: response.entry[i].resource?.code?.coding?.display || '',
              state: response.entry[i].resource?.valueCodeableConcept?.text || '',
 
               // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '', 
