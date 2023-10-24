@@ -132,6 +132,8 @@
         ).then(function (data) {
           return data;
         });
+        
+        // creating a Javascript object from JSON string , can also use JSON.parse()
 
         var response = await obs.json();
 
@@ -145,9 +147,9 @@
             console.log(response.entry[i]);
 
             const datafields = {
-              date: response.entry[i].resource.code.effectiveDateTime,
-              observation: response.entry[i].resource.code.coding.text,
-              state: response.entry[i].resource.valueCodeableConcept.text,
+              date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '', 
+              observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '', 
+              state: ( typeof response.entry[i].resource.valueCodeableConcept.text !== 'undefined' ) ? response.entry[i].resource.valueCodeableConcept.text : '', 
             };
 
             console.log(datafields);
