@@ -132,7 +132,7 @@
         ).then(function (data) {
           return data;
         });
-        
+
         // creating a Javascript object from JSON string , can also use JSON.parse()
 
         var responsejson = await obs.json();
@@ -144,25 +144,39 @@
             responsejson.entry[i].resource.category[0].coding[0]["code"] ===
             "social-history"
           ) {
-            console.log(responsejson.entry[i]);
+            // console.log(responsejson.entry[i]);
 
-            if (responsejson.entry[i].resource?.code?.text.match(/SHX|MHX|FHX/) !== null)
-            {
+            if (
+              responsejson.entry[i].resource?.code?.text.match(
+                /SHX|MHX|FHX/
+              ) !== null
+            ) {
+              const datafields = {
+                date: responsejson.entry[i].resource?.effectiveDateTime || "",
+                observation:
+                  responsejson.entry[i].resource?.code?.coding[0]?.display ||
+                  "",
+                response:
+                  responsejson.entry[i].resource?.valueCodeableConcept?.text ||
+                  "",
 
-            const datafields = {
-              date: responsejson.entry[i].resource?.effectiveDateTime || '',
-             observation: responsejson.entry[i].resource?.code?.coding[0]?.display || '',
-             response: responsejson.entry[i].resource?.valueCodeableConcept?.text || '',
+                // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '',
+                // observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '',
+                // state: ( typeof response.entry[i].resource.valueCodeableConcept.text !== 'undefined' ) ? response.entry[i].resource.valueCodeableConcept.text : '',
+              };
 
-              // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '', 
-              // observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '', 
-              // state: ( typeof response.entry[i].resource.valueCodeableConcept.text !== 'undefined' ) ? response.entry[i].resource.valueCodeableConcept.text : '', 
-              
-            };
-
-            console.log(datafields);
-          };
+              //console.log(datafields);
+            }
           }
+
+
+          if (     responsejson.entry[i].resource.category[0].coding[0]["code"] ===
+          "vital-signs"){
+            console.log(responsejson.entry[i]);
+          };
+
+
+
         }
       }
 
