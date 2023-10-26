@@ -146,7 +146,8 @@
           ) {
             console.log(responsejson.entry[i]);
 
-            console.log(responsejson.entry[i].resource?.code?.text.match(/SHX|MHX|FHX/));
+            if (responsejson.entry[i].resource?.code?.text.match(/SHX|MHX|FHX/) !== null)
+            {
 
             const datafields = {
               date: responsejson.entry[i].resource?.effectiveDateTime || '',
@@ -156,9 +157,11 @@
               // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '', 
               // observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '', 
               // state: ( typeof response.entry[i].resource.valueCodeableConcept.text !== 'undefined' ) ? response.entry[i].resource.valueCodeableConcept.text : '', 
+              
             };
 
             console.log(datafields);
+          };
           }
         }
       }
