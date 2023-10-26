@@ -120,7 +120,8 @@
             "/Observation?patient=" +
             myApp.smart.patient.id +
             "&category=" +
-            observation_codes.join(","),
+            observation_codes.join(",") +
+            "&_summary=true",
           {
             headers: {
               Accept: "application/json+fhir",
@@ -177,8 +178,25 @@
             if (responsejson.entry[i].resource.component === undefined ){
               console.log("Yes");
 
+              const datafields = {
+                date: responsejson.entry[i].resource?.effectiveDateTime || "",
+                observation:
+                  responsejson.entry[i].resource?.code?.coding[0]?.display ||
+                  "",
+                measurement:
+                  responsejson.entry[i].resource?.valueQuantity?.value.concat(" ", responsejson.entry[i].resource?.valueQuantity?.unit || "unit")  ||
+                  "",
+
+                // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '',
+                // observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '',
+                // state: ( typeof response.entry[i].resource.valueCodeableConcept.text !== 'undefined' ) ? response.entry[i].resource.valueCodeableConcept.text : '',
+              };
+
+              console.log(datafields);
+
             }else{
 console.log("no");
+
             };
 
           };
