@@ -170,9 +170,17 @@
           }
 
 
-          if (     responsejson.entry[i].resource.category[0].coding[0]["code"] ===
+          if ( responsejson.entry[i].resource.category[0].coding[0]["code"] ===
           "vital-signs"){
             console.log(responsejson.entry[i]);
+
+            if (responsejson.entry[i].resource.component === undefined ){
+              console.log("Yes");
+
+            }else{
+console.log("no");
+            };
+
           };
 
 
