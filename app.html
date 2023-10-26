@@ -146,7 +146,7 @@
           ) {
             console.log(responsejson.entry[i]);
 
-            console.log(responsejson.entry[i].resource?.code?.text.match('/SHX|MHX|FHX/'));
+            console.log(responsejson.entry[i].resource?.code?.text.match(/SHX|MHX|FHX/));
 
             const datafields = {
               date: responsejson.entry[i].resource?.effectiveDateTime || '',
