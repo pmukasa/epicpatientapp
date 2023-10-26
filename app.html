@@ -135,21 +135,23 @@
         
         // creating a Javascript object from JSON string , can also use JSON.parse()
 
-        var response = await obs.json();
+        var responsejson = await obs.json();
 
-        console.log(response);
+        console.log(responsejson);
 
-        for (let i in response.entry) {
+        for (let i in responsejson.entry) {
           if (
-            response.entry[i].resource.category[0].coding[0]["code"] ===
+            responsejson.entry[i].resource.category[0].coding[0]["code"] ===
             "social-history"
           ) {
             console.log(response.entry[i]);
 
+            console.log(responsejson.entry[i].resource?.code?.text.match('/SHX|MHX|FHX/'));
+
             const datafields = {
-              date: response.entry[i].resource?.effectiveDateTime || '',
-             observation: response.entry[i].resource?.code?.coding[0]?.display || '',
-             state: response.entry[i].resource?.valueCodeableConcept?.text || '',
+              date: responsejson.entry[i].resource?.effectiveDateTime || '',
+             observation: responsejson.entry[i].resource?.code?.coding[0]?.display || '',
+             response: responsejson.entry[i].resource?.valueCodeableConcept?.text || '',
 
               // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '', 
               // observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '', 
