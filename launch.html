@@ -35,8 +35,11 @@
     <script>
 
     FHIR.oauth2.ready().then( (client) => {
-      
+      console.log("testing data");
+    }).catch((error) => { 
+      console.log(error);
     });
+
 
     </script>
 
