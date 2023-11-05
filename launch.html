@@ -33,6 +33,102 @@
     <h1 class="container">Authorizing Request....</h1>
 
     <script>
+
+    FHIR.oauth2.ready().then( (client) => {
+      
+    });
+
+    </script>
+
+    <script>
+
+    /* tokens are fetched from the response*/
+
+
+      function generateStateValue(length = 32) {
+        const array = new Uint8Array(length);
+        window.crypto.getRandomValues(array);
+      }
+
+      var hospital_dict = { hospitals : [{ connection_details : { client_id: "12d221e3-f893-408f-bba2-b9cf72e6438e",
+                                 scope : "PATIENT.READ PATIENT.SEARCH OBSERVATION.READ OBSERVATION.SEARCH",
+                                 redirect_uri: "https://pmukasa.github.io/epicpatientapp/app.html",
+                                 iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
+                                 // access_token: "", 
+                                },
+                                connection_attempt : 0 ,
+                              app_details: null },
+                        { connection_details : {client_id: "a19866e8-bdf3-4f53-85c8-7e399b4154fe",
+                                  scope: "patient/Patient.read patient/Observation.read online_access openid profile",
+                                  state: generateStateValue(),
+                                  redirect_uri: "https://pmukasa.github.io/epicpatientapp/app.html",
+                                  iss: "https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
+                                  // access_token: "",
+                                 },
+                                 connection_attempt : 0,
+                                app_details: null },
+                                ],
+                         };
+
+
+    if (localStorage.hospital_info === undefined)
+    {
+        localStorage.setItem( 'hospital_info' , JSON.stringify(hospital_dict) );  
+    }
+
+    hospital_info = JSON.parse(localStorage.getItem('hospital_info'));
+    
+
+    // returns the first matching record
+    // https://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
+
+    var hospital = hospital_info.hospitals.find(record => record.connection_attempt === 0 && record.app_details === null ) ;
+
+    if (hospital !== undefined){
+
+       // creates a new array and assign back
+    hospital_info.hospitals = hospital_info.hospitals.filter(record => record.client_id !== hospital.client_id);
+
+hospital.connection_attempt = 1;
+
+hospital_info.hospitals.push(hospital);
+
+localStorage.setItem('hospital_info', JSON.stringify(hospital_info));
+
+FHIR.oauth2.authorize(hospital.connection_details);
+
+    }
+    else {
+      console.log(hospital_info);
+    }
+   
+
+
+
+    // hospital['connection_details'].client_id
+
+    // FHIR.oauth2.authorize(hospital[0]);
+
+ 
+
+    // console.log(JSON.parse(localStorage.getItem('hospital_info')).hospitals.find(record => record.connection_attempt === 0) )
+
+    /* if there is a local file or another source having the authentication keys already, we read them in at this point*/
+
+
+    /* Call the authorise function sequentially */
+
+    // for (var key in hospital_dict){
+    //   if (key.access_token === 'undefined'){
+    //     page_status = 1;
+    //     FHIR.oauth2.authorize(key);
+    //   }
+
+    // };
+
+//const available_keys = []
+
+/*
       function generateStateValue(length = 32) {
         const array = new Uint8Array(length);
         window.crypto.getRandomValues(array);
@@ -56,6 +152,8 @@
           redirect_uri: "https://pmukasa.github.io/epicpatientapp/app.html",
         },
       ]);
+
+      */
       /*
       		FHIR.oauth2.authorize({
       'client_id': '12d221e3-f893-408f-bba2-b9cf72e6438e',
