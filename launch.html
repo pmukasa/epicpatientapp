@@ -75,7 +75,7 @@ if(!firstTime) {
         var all_hospital_data = JSON.parse(localStorage.getItem('hospital_info'));
 
 // if (localStorage.hospital_info !== undefined)
-if (all_hospital_data !== undefined && !localStorage.getItem("first_time") )
+if (all_hospital_data !== undefined &&  sessionStorage.first_name === 1 ) // !sessionStorage.getItem("first_time") )
 {
 
   console.log("Hello there");
@@ -104,7 +104,7 @@ if (all_hospital_data !== undefined && !localStorage.getItem("first_time") )
       // localStorage.setItem("first_time","1");
 
     }).catch((error) => { 
-      localStorage.setItem("first_time","0");
+      sessionStorage.setItem("first_time","0");
       console.log(error);
     });
 
@@ -135,7 +135,7 @@ all_hospital_data.hospitals.push(hospital);
 
 localStorage.setItem('hospital_info', JSON.stringify(all_hospital_data));
 
-localStorage.setItem("first_time","1");
+sessionStorage.setItem("first_time","1");
 
 FHIR.oauth2.authorize(hospital.connection_details);
 
