@@ -75,13 +75,13 @@ if(!firstTime) {
         var all_hospital_data = JSON.parse(localStorage.getItem('hospital_info'));
 
 // if (localStorage.hospital_info !== undefined)
-if (all_hospital_data !== undefined)
+if (all_hospital_data !== undefined && !localStorage.getItem("first_time") )
 {
 
   console.log("Hello there");
 
   // all_hospital_data = JSON.parse(localStorage.getItem('hospital_info'));
-      
+    
    
     FHIR.oauth2.ready().then( (client) => {
 
@@ -97,9 +97,12 @@ if (all_hospital_data !== undefined)
 
       // find the matching client Id and populate
 
-       localStorage.setItem( 'hospital_info' , JSON.stringify(hospital_data) );  
+      localStorage.setItem( 'hospital_info' , JSON.stringify(hospital_data) );
+      
+      // localStorage.setItem("first_time","1");
 
     }).catch((error) => { 
+      localStorage.setItem("first_time","0");
       console.log(error);
     });
 
@@ -129,6 +132,8 @@ hospital.connection_attempt = 1;
 all_hospital_data.hospitals.push(hospital);
 
 localStorage.setItem('hospital_info', JSON.stringify(all_hospital_data));
+
+localStorage.setItem("first_time","1");
 
 FHIR.oauth2.authorize(hospital.connection_details);
 
