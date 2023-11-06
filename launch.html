@@ -125,7 +125,7 @@ if (all_hospital_data !== undefined && !localStorage.getItem("first_time") )
     if (hospital !== undefined){
 
        // creates a new array and assign back
-    hospital_info.hospitals =  all_hospital_data.hospitals.filter(record => record.client_id !== hospital.client_id);
+      all_hospital_data.hospitals =  all_hospital_data.hospitals.filter(record => record.client_id !== hospital.client_id);
 
 hospital.connection_attempt = 1;
 
