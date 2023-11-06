@@ -93,11 +93,13 @@ if (all_hospital_data !== undefined && !localStorage.getItem("first_time") )
 
       update.app_details = client;
 
-      hospital_data.hospitals.filter(record => record.client_id !== hospital.client_id).push(update);
+      all_hospital_data.hospitals = all_hospital_data.hospitals.filter(record => record.client_id !== hospital.client_id)
+      
+      all_hospital_data.hospitals.push(update);
 
       // find the matching client Id and populate
 
-      localStorage.setItem( 'hospital_info' , JSON.stringify(hospital_data) );
+      localStorage.setItem( 'hospital_info' , JSON.stringify(all_hospital_data) );
       
       // localStorage.setItem("first_time","1");
 
