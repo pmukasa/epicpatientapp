@@ -31,22 +31,16 @@
       <i class="fa fa-spinner fa-spin"></i>Authorizing
     </button>
     <h1 class="container">Authorizing Request....</h1>
+    
 
     <script>
-
-    FHIR.oauth2.ready().then( (client) => {
-      console.log("testing data");
-    }).catch((error) => { 
-      console.log(error);
-    });
-
-
-    </script>
-
+      var firstTime = localStorage.getItem("first_time");
+if(!firstTime) {
+    // first time loaded!
+    localStorage.setItem("first_time","1");
+}
+      </script>
     <script>
-
-    /* tokens are fetched from the response*/
-
 
       function generateStateValue(length = 32) {
         const array = new Uint8Array(length);
@@ -74,35 +68,71 @@
                          };
 
 
-    if (localStorage.hospital_info === undefined)
-    {
-        localStorage.setItem( 'hospital_info' , JSON.stringify(hospital_dict) );  
-    }
+        /* tokens are fetched from the response*/
 
-    hospital_info = JSON.parse(localStorage.getItem('hospital_info'));
-    
+        var myApp = {} ;
+
+        var all_hospital_data = JSON.parse(localStorage.getItem('hospital_info'));
+
+// if (localStorage.hospital_info !== undefined)
+if (all_hospital_data !== undefined)
+{
+
+  // all_hospital_data = JSON.parse(localStorage.getItem('hospital_info'));
+      
+   
+    FHIR.oauth2.ready().then( (client) => {
+
+      console.log(client);
+
+      // myApp.smart = client;
+
+      update = all_hospital_data.hospitals.find(record => record.connection_details.client_id === client.client_id ) ;
+
+      update.app_details = client;
+
+      hospital_data.hospitals.filter(record => record.client_id !== hospital.client_id).push(update);
+
+      // find the matching client Id and populate
+
+       localStorage.setItem( 'hospital_info' , JSON.stringify(hospital_data) );  
+
+    }).catch((error) => { 
+      console.log(error);
+    });
+
+  }
+  else 
+
+    // if (localStorage.hospital_info === undefined)
+    {
+       localStorage.setItem( 'hospital_info' , JSON.stringify(hospital_dict) );  
+
+       all_hospital_data = hospital_dict;
+
+    }
 
     // returns the first matching record
     // https://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
 
-    var hospital = hospital_info.hospitals.find(record => record.connection_attempt === 0 && record.app_details === null ) ;
+    var hospital =  all_hospital_data.hospitals.find(record => record.connection_attempt === 0 && record.app_details === null ) ;
 
     if (hospital !== undefined){
 
        // creates a new array and assign back
-    hospital_info.hospitals = hospital_info.hospitals.filter(record => record.client_id !== hospital.client_id);
+    hospital_info.hospitals =  all_hospital_data.hospitals.filter(record => record.client_id !== hospital.client_id);
 
 hospital.connection_attempt = 1;
 
-hospital_info.hospitals.push(hospital);
+all_hospital_data.hospitals.push(hospital);
 
-localStorage.setItem('hospital_info', JSON.stringify(hospital_info));
+localStorage.setItem('hospital_info', JSON.stringify(all_hospital_data));
 
 FHIR.oauth2.authorize(hospital.connection_details);
 
     }
     else {
-      console.log(hospital_info);
+      console.log(all_hospital_data);
     }
    
 
