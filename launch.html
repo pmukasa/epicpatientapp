@@ -126,7 +126,7 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
     // returns the first matching record
     // https://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
 
-    var hospital =  all_hospital_data.hospitals.find(record => record.connection_attempt === 0 && record.app_details === null ) ;
+    var hospital =  all_hospital_data.hospitals.find(record => record.connection_attempt === 0 && record.app_details === "" ) ;
 
     if (hospital !== undefined){
 
