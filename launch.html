@@ -50,16 +50,16 @@ if(!firstTime) {
 
       var hospital_dict = { hospitals : [{ connection_details : { client_id: "12d221e3-f893-408f-bba2-b9cf72e6438e",
                                  scope : "PATIENT.READ PATIENT.SEARCH OBSERVATION.READ OBSERVATION.SEARCH",
-                                 redirect_uri: "https://pmukasa.github.io/epicpatientapp/app.html",
+                                 redirect_uri: "https://pmukasa.github.io/epicpatientapp/launch.html",
                                  iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
                                  // access_token: "", 
                                 },
-                                connection_attempt : 1 ,  // remember to change this later
+                                connection_attempt : 0 ,  // remember to change this later
                               app_details: null },
                         { connection_details : {client_id: "a19866e8-bdf3-4f53-85c8-7e399b4154fe",
                                   scope: "patient/Patient.read patient/Observation.read online_access openid profile",
                                   state: generateStateValue(),
-                                  redirect_uri: "https://pmukasa.github.io/epicpatientapp/app.html",
+                                  redirect_uri: "https://pmukasa.github.io/epicpatientapp/launch.html",
                                   iss: "https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
                                   // access_token: "",
                                  },
