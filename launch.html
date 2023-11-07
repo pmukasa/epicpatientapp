@@ -91,6 +91,10 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
 
       update = all_hospital_data.hospitals.find(record => record.connection_details.client_id === client.state.client_id ) ;
 
+      console.log("matched record");
+      
+      console.log(update);
+
       update.app_details = client;
 
       all_hospital_data.hospitals = all_hospital_data.hospitals.filter(record => record.client_id !== hospital.client_id)
