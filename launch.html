@@ -131,7 +131,7 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
 
        all_hospital_data = hospital_dict;
 
-       console.log("BEFORE Number if hospitals " + all_hospital_data.hospitals.length );
+       console.log("INITIAL Number if hospitals " + all_hospital_data.hospitals.length );
 
     }
 
@@ -144,14 +144,18 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
 
     if (hospital !== undefined){
 
+      console.log("BEFORE FILTER Number if hospitals " + all_hospital_data.hospitals.length );
+
        // creates a new array and assign back
       all_hospital_data.hospitals =  all_hospital_data.hospitals.filter(record => record.client_id !== hospital.client_id);
+
+      console.log("AFTER FILTER Number if hospitals " + all_hospital_data.hospitals.length );
 
 hospital.connection_attempt = 1;
 
 all_hospital_data.hospitals.push(hospital);
 
-console.log("AFTER Number if hospitals " + all_hospital_data.hospitals.length );
+console.log("AFTER UPDATE Number if hospitals " + all_hospital_data.hospitals.length );
 
 localStorage.setItem('hospital_info', JSON.stringify(all_hospital_data));
 
