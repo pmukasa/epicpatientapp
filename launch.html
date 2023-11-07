@@ -95,7 +95,7 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
 
       console.log(all_hospital_data.hospitals);
 
-      cosole.log("searching for client id");
+      console.log("searching for client id");
 
       console.log(client.state.client_id);
 
@@ -127,9 +127,11 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
     {
       console.log("Entering the else statement");
 
-       localStorage.setItem( 'hospital_info' , JSON.stringify(hospital_dict) );  
+       // localStorage.setItem( 'hospital_info' , JSON.stringify(hospital_dict) );  
 
        all_hospital_data = hospital_dict;
+
+       console.log("BEFORE Number if hospitals " + all_hospital_data.hospitals.length );
 
     }
 
@@ -149,6 +151,8 @@ hospital.connection_attempt = 1;
 
 all_hospital_data.hospitals.push(hospital);
 
+console.log("AFTER Number if hospitals " + all_hospital_data.hospitals.length );
+
 localStorage.setItem('hospital_info', JSON.stringify(all_hospital_data));
 
 sessionStorage.setItem("first_time","1");
@@ -156,7 +160,6 @@ sessionStorage.setItem("first_time","1");
 console.log("attempting to authorize with:");
 
 console.log(hospital.connection_details);
-
 
 FHIR.oauth2.authorize(hospital.connection_details);
 
