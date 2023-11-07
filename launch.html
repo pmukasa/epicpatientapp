@@ -83,7 +83,7 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
 
   // all_hospital_data = JSON.parse(localStorage.getItem('hospital_info'));
     
-    FHIR.oauth2.ready().then( (client) => {
+  await  FHIR.oauth2.ready().then( (client) => {
 
       console.log(client);
 
