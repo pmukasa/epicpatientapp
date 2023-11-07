@@ -105,7 +105,7 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
 
       update.app_details = client;
 
-      all_hospital_data.hospitals = all_hospital_data.hospitals.filter(record => record.client_id !== hospital.client_id)
+      all_hospital_data.hospitals = all_hospital_data.hospitals.filter(record => record.connection_details.client_id !== hospital.connection_details.client_id)
       
       all_hospital_data.hospitals.push(update);
 
@@ -147,7 +147,7 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
       console.log("BEFORE FILTER Number if hospitals " + all_hospital_data.hospitals.length );
 
        // creates a new array and assign back
-      all_hospital_data.hospitals =  all_hospital_data.hospitals.filter(record => record.client_id !== hospital.client_id);
+      all_hospital_data.hospitals =  all_hospital_data.hospitals.filter(record => record.connection_details.client_id !== hospital.connection_details.client_id);
 
       console.log("AFTER FILTER Number if hospitals " + all_hospital_data.hospitals.length );
 
