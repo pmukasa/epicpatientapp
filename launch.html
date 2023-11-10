@@ -75,12 +75,13 @@ if(!firstTime) {
         var all_hospital_data = JSON.parse(localStorage.getItem('hospital_info'));
 
 FHIR.oauth2.ready().then( (client) => {
-
+ console.log("A client has been found");
 console.log(client);
 
 
 }).catch((error) => { 
       //sessionStorage.setItem("first_time","0");
+      console.log("A non match for the client has occurred or no client");
       console.log(error);
     });
     /**
