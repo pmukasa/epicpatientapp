@@ -74,16 +74,71 @@ if(!firstTime) {
 
         var all_hospital_data = JSON.parse(localStorage.getItem('hospital_info'));
 
-FHIR.oauth2.ready().then( (client) => {
- console.log("A client has been found");
+
+        async function dada () {
+
+          FHIR.oauth2.ready().then( (client) => {
+
 console.log(client);
 
+// myApp.smart = client;
+
+update = all_hospital_data.hospitals.find(record => record.connection_details.client_id === client.state.client_id ) ;
+
+console.log("Search in hospital records");
+
+console.log(all_hospital_data.hospitals);
+
+console.log("searching for client id");
+
+console.log(client.state.client_id);
+
+console.log("matched record");
+
+console.log(update);
+
+update.app_details = client;
+
+all_hospital_data.hospitals = all_hospital_data.hospitals.filter(record => record.connection_details.client_id !== hospital.connection_details.client_id)
+
+all_hospital_data.hospitals.push(update);
+
+// find the matching client Id and populate
+
+localStorage.setItem( 'hospital_info' , JSON.stringify(all_hospital_data) );
+
+// localStorage.setItem("first_time","1");
 
 }).catch((error) => { 
-      //sessionStorage.setItem("first_time","0");
-      console.log("A non match for the client has occurred or no client");
-      console.log(error);
-    });
+sessionStorage.setItem("first_time","0");
+console.log(error);
+});
+
+            
+        };
+
+//         await 
+// await FHIR.oauth2.ready().then( (client) => {
+//  console.log("A client has been found");
+// console.log(client);
+
+
+// }).catch((error) => { 
+//       //sessionStorage.setItem("first_time","0");
+//       console.log("A non match for the client has occurred or no client");
+//       console.log(error);
+//     });
+
+
+    if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !sessionStorage.getItem("first_time") ) 
+{
+
+  console.log("Hello there");
+
+  await dada();
+}
+
+
     /**
 
 
@@ -132,7 +187,7 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
       console.log(error);
     });
 
-  }
+  } **/
   else 
 
     // if (localStorage.hospital_info === undefined)
@@ -187,7 +242,7 @@ FHIR.oauth2.authorize(hospital.connection_details);
 
 
 
- **/   
+  
   
 
 
