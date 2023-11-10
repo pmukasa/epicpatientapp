@@ -77,7 +77,7 @@ if(!firstTime) {
 
         async function dada () {
 
-          FHIR.oauth2.ready().then( (client) => {
+         await FHIR.oauth2.ready().then( (client) => {
 
 console.log(client);
 
@@ -135,7 +135,7 @@ console.log(error);
 
   console.log("Hello there");
 
-  await dada();
+   dada();
 }
 
 
