@@ -211,8 +211,9 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
 
     if (hospital !== undefined){
 
-      console.log("BEFORE FILTER Number if hospitals " + all_hospital_data.hospitals.length );
 
+      console.log("BEFORE FILTER Number if hospitals " + all_hospital_data.hospitals.length );
+console.log(all_hospital_data);
        // creates a new array and assign back
       all_hospital_data.hospitals =  all_hospital_data.hospitals.filter(record => record.connection_details.client_id !== hospital.connection_details.client_id);
 
@@ -220,9 +221,14 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
 
 hospital.connection_attempt = 1;
 
+console.log(all_hospital_data);
+
+
 all_hospital_data.hospitals.push(hospital);
 
 console.log("AFTER UPDATE Number if hospitals " + all_hospital_data.hospitals.length );
+
+console.log(all_hospital_data);
 
 localStorage.setItem('hospital_info', JSON.stringify(all_hospital_data));
 
@@ -231,6 +237,8 @@ sessionStorage.setItem("first_time","1");
 console.log("attempting to authorize with:");
 
 console.log(hospital.connection_details);
+
+gaga;
 
 FHIR.oauth2.authorize(hospital.connection_details);
 
