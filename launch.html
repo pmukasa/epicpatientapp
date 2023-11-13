@@ -83,6 +83,22 @@ console.log(client);
 
 // myApp.smart = client;
 
+hospital = all_hospital_data.hospitals.find(record => record.connection_details.client_id === client.state.clientId ) ;
+
+indexOfRecord = all_hospital_data.hospitals.indexOf(hospital);
+
+console.log("The index of the record is " + indexOfRecord);
+
+all_hospital_data.hospitals[indexOfRecord].app_details = client;
+
+console.log("the credentials are as follows");
+
+console.log(all_hospital_data);
+
+gaga;
+
+/**
+ * 
 update = all_hospital_data.hospitals.find(record => record.connection_details.client_id === client.state.clientId ) ;
 
 console.log("Search in hospital records");
@@ -102,6 +118,8 @@ update.app_details = client;
 all_hospital_data.hospitals = all_hospital_data.hospitals.filter(record => record.connection_details.client_id !== hospital.connection_details.client_id)
 
 all_hospital_data.hospitals.push(update);
+
+**/
 
 // find the matching client Id and populate
 
@@ -234,7 +252,7 @@ indexOfRecord = all_hospital_data.hospitals.indexOf(hospital);
 
 console.log("The index of the record is " + indexOfRecord );
 
-all_hospital_data.hospitals[indexOfRecord].connection_attempt = 1
+all_hospital_data.hospitals[indexOfRecord].connection_attempt = 1;
 
 
 console.log("AFTER UPDATE Number if hospitals " + all_hospital_data.hospitals.length );
@@ -249,7 +267,7 @@ console.log("attempting to authorize with:");
 
 console.log(hospital.connection_details);
 
-gaga;
+// gaga;
 
 FHIR.oauth2.authorize(hospital.connection_details);
 
