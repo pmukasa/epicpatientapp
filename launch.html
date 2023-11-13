@@ -216,8 +216,10 @@ if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !
 console.log(all_hospital_data);
        // creates a new array and assign back
 
-      console.log(all_hospital_data.hospitals.filter(record => record.connection_details.client_id !== hospital.connection_details.client_id));
+      var hopital = all_hospital_data.hospitals.filter(record => record.connection_details.client_id !== hospital.connection_details.client_id);
 
+      console.log(hopital);
+      
       all_hospital_data.hospitals =  all_hospital_data.hospitals.filter(record => record.connection_details.client_id !== hospital.connection_details.client_id);
 
       console.log("AFTER FILTER Number if hospitals " + all_hospital_data.hospitals.length );
