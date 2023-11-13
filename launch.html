@@ -83,7 +83,7 @@ console.log(client);
 
 // myApp.smart = client;
 
-update = all_hospital_data.hospitals.find(record => record.connection_details.client_id === client.state.client_id ) ;
+update = all_hospital_data.hospitals.find(record => record.connection_details.client_id === client.state.clientId ) ;
 
 console.log("Search in hospital records");
 
@@ -91,7 +91,7 @@ console.log(all_hospital_data.hospitals);
 
 console.log("searching for client id");
 
-console.log(client.state.client_id);
+console.log(client.state.clientId);
 
 console.log("matched record");
 
