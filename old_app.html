@@ -21,49 +21,49 @@
 
       var myApp = {};
 
-      //
-
-      function processRecord(_client){
-
-        console.log(_client.getAuthorizationHeader());
-
-        console.log(_client.request("metadata"));
-
-        return _client.getAuthorizationHeader();
-
-      };
-
-      all_hospital_info = JSON.parse(localStorage.getItem("hospital_info"));
-
-      const authHeaders = all_hospital_data.hospitals.filter(record => record.app_details !== "").map(processRecord);
-
-      console.log("These were the found auth headers");
-
-      console.log(authHeaders.join(" * "));
-
-      // need to filter those which have the state variable defined and perform a map on them
-
-      
-
-
-      // myApp.smart = client;
-
-      // console.log(myApp.smart.getAuthorizationHeader()); // passed
-
-      // console.log(myApp.smart.request("metadata"));
-/**
       FHIR.oauth2.ready().then(function (client) {
         console.log(client); // added by me
         myApp.smart = client;
 
-        console.log(myApp.smart.getAuthorizationHeader()) // passed
+        // console.log(client);
+
+        // console.log("check mark: 1");
+
+        // console.log(client.request("Patient/id"));
+
+        // console.log("check mark: 2");
+
+        // console.log(client.request("Patient", { pageLimit: 0 }));
+
+        // console.log("check mark: 3");
+
+        // pullRecords;
+        // console.log(client.patient.request("Observation"));
+        // doRequests();
+
+        // console.log(myApp.smart.patient.id); // passed
+
+        console.log("check mark: 1");
+
+        // testPull(); // passed
+
+        console.log("check mark: 2");
+
+        //console.log(myApp.smart.getAuthorizationHeader()) // passed
+
+        //  console.log(headerdata()); // passed
+
+        console.log("check mark: 3");
 
         console.log(myApp.smart.request("metadata"));
 
+        console.log(myApp.smart);
+
+        //pullRecords2();
         /*
         Details of the various Observation categories can be found here:
         https://build.fhir.org/valueset-observation-category.html#expansion
-        
+        */
         var codes = [
           "social-history",
           "vital-signs",
@@ -83,7 +83,6 @@
         // pullRecords();
       });
 
-      **/
       async function headerdata() {
         return myApp.smart.getAuthorizationHeader();
         // .then(function (header) {

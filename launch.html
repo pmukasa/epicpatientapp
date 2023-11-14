@@ -91,7 +91,7 @@
 
       function callback1(_all_hospital_data) {
 
-        console.log("inside of callback1");
+        // console.log("inside of callback1");
 
         var hospital = _all_hospital_data.hospitals.find(
           (record) =>
@@ -122,12 +122,12 @@
 
         }
 
-        console.log("exiting callback 1");
+        // console.log("exiting callback 1");
       }
 
       function callback2(_client, _all_hospital_data, callback1) {
 
-        console.log("inside of callback 2");
+        // console.log("inside of callback 2");
 
         var hospital = _all_hospital_data.hospitals.find(
           (record) =>
@@ -145,7 +145,7 @@
 
         callback1(_all_hospital_data);
 
-        console.log("exiting callback 2");
+        // console.log("exiting callback 2");
       }
 
       // tokens are fetched from the response
@@ -159,31 +159,27 @@
 
       var all_hospital_data = JSON.parse(localStorage.getItem("hospital_info"));
 
-      console.log(sessionStorage.first_time);
-
-
       if (
         all_hospital_data !== undefined &&
         sessionStorage.first_time === "1"
       ) {
-        // !sessionStorage.getItem("first_time") )
-        console.log("Hello there, next we call the dada function");
+       //  console.log("Hello there, next we call the dada function");
 
         dada(all_hospital_data);
 
       } else if (sessionStorage.first_time === "0" || sessionStorage.first_time == null) {
-        console.log("Entering the else statement");
+        // console.log("Entering the else statement");
 
         all_hospital_data = hospital_dict;
 
-        console.log(
-          "INITIAL Number if hospitals " + all_hospital_data.hospitals.length
-        );
+        // console.log(
+        //   "INITIAL Number if hospitals " + all_hospital_data.hospitals.length
+        // );
 
         callback1(all_hospital_data);
       }
 
-      console.log("Outside the if statement now");
+      // console.log("Outside the if statement now");
       
     </script>
   </body>
