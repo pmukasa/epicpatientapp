@@ -110,8 +110,11 @@
 
           sessionStorage.setItem("first_time", "1");
 
+          console.log("attempting to connect to FHIR");
+
           FHIR.oauth2.authorize(hospital.connection_details);
         } else {
+          console.log("done atleast a connection attempt to every server");
           console.log(_all_hospital_data);
         }
 
@@ -141,8 +144,6 @@
         console.log("exiting callback 2");
       }
 
-
-
       // tokens are fetched from the response
 
       var myApp = {};
@@ -161,7 +162,6 @@
 
         dada(all_hospital_data);
 
-        asd;
       } else if (sessionStorage.first_time === "0" || sessionStorage.first_time == null) {
         console.log("Entering the else statement");
 
