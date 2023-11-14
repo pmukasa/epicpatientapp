@@ -70,37 +70,6 @@
         ],
       };
 
-      // tokens are fetched from the response
-
-      var myApp = {};
-
-      var all_hospital_data = JSON.parse(localStorage.getItem("hospital_info"));
-
-
-      if (
-        all_hospital_data !== undefined &&
-        sessionStorage.first_time === "1"
-      ) {
-        // !sessionStorage.getItem("first_time") )
-        console.log("Hello there, next we call the dada function");
-
-        dada(all_hospital_data);
-
-        asd;
-      } else if (sessionStorage.first_time === "0") {
-        console.log("Entering the else statement");
-
-        all_hospital_data = hospital_dict;
-
-        console.log(
-          "INITIAL Number if hospitals " + all_hospital_data.hospitals.length
-        );
-
-        callback1(all_hospital_data);
-      }
-
-      console.log("Outside the if statement now");
-      
 
       /**
        *  FUNCTION DEFINITIONS
@@ -161,6 +130,40 @@
 
         callback1(_all_hospital_data);
       }
+
+
+
+      // tokens are fetched from the response
+
+      var myApp = {};
+
+      var all_hospital_data = JSON.parse(localStorage.getItem("hospital_info"));
+
+
+      if (
+        all_hospital_data !== undefined &&
+        sessionStorage.first_time === "1"
+      ) {
+        // !sessionStorage.getItem("first_time") )
+        console.log("Hello there, next we call the dada function");
+
+        dada(all_hospital_data);
+
+        asd;
+      } else if (sessionStorage.first_time === "0") {
+        console.log("Entering the else statement");
+
+        all_hospital_data = hospital_dict;
+
+        console.log(
+          "INITIAL Number if hospitals " + all_hospital_data.hospitals.length
+        );
+
+        callback1(all_hospital_data);
+      }
+
+      console.log("Outside the if statement now");
+      
 
     </script>
   </body>
