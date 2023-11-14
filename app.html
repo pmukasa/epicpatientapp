@@ -19,25 +19,29 @@
 
     <script>
 
-      var myApp = {};
+      
 
       //
 
-      function processRecord(_client){
+      function processRecord(_hospitalDetails){
 
-        console.log(_client);
+        var myApp = {};
 
-        console.log(_client.state.tokenResponse.access_token);
+        myApp.smart = _hospitalDetails.sessionDetails
 
-        console.log(_client.request("metadata"));
+        console.log(myApp.smart);
 
-        return _client.state.tokenResponse.access_token;
+        console.log(myApp.smart.state.tokenResponse.access_token);
+
+        console.log(myApp.smart.request("metadata"));
+
+        return myApp.smart.state.tokenResponse.access_token;
 
       };
 
       all_hospital_info = JSON.parse(localStorage.getItem("hospital_info"));
 
-      const authHeaders = all_hospital_info.hospitals.filter(record => record.app_details !== "").map(processRecord);
+      const authHeaders = all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(processRecord);
 
       console.log("These were the found auth headers");
 
