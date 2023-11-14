@@ -25,6 +25,8 @@
 
       function processRecord(_client){
 
+        console.log(_client);
+
         console.log(_client.getAuthorizationHeader());
 
         console.log(_client.request("metadata"));
@@ -40,6 +42,13 @@
       console.log("These were the found auth headers");
 
       console.log(authHeaders.join(" * "));
+
+
+      // Algorithm,
+
+      // Before populating the table, must we await all the data, how long do we await, do we do fetch attempts again
+
+      // Approach sort as the data comes in, should save time
 
       // need to filter those which have the state variable defined and perform a map on them
 
@@ -84,15 +93,7 @@
       });
 
       **/
-      async function headerdata() {
-        return myApp.smart.getAuthorizationHeader();
-        // .then(function (header) {
-        //   console.log(header);
-        // })
-        // .catch(function (error) {
-        //   console.error(error); // Handle any errors
-        // });
-      }
+
 
       async function testPull() {
         myApp.smart.patient
