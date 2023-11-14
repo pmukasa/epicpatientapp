@@ -31,330 +31,137 @@
       <i class="fa fa-spinner fa-spin"></i>Authorizing
     </button>
     <h1 class="container">Authorizing Request....</h1>
-    
 
-    <!-- <script>
-      var firstTime = localStorage.getItem("first_time");
-if(!firstTime) {
-    // first time loaded!
-    localStorage.setItem("first_time","1");
-}
-      </script> -->
     <script>
-
-
       function generateStateValue(length = 32) {
         const array = new Uint8Array(length);
         window.crypto.getRandomValues(array);
       }
 
-      var hospital_dict = { hospitals : [{ connection_details : { client_id: "12d221e3-f893-408f-bba2-b9cf72e6438e",
-                                 scope : "PATIENT.READ PATIENT.SEARCH OBSERVATION.READ OBSERVATION.SEARCH",
-                                 redirect_uri: "https://pmukasa.github.io/epicpatientapp/launch.html",
-                                 iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
-                                 // access_token: "", 
-                                },
-                                connection_attempt : 0 ,  // remember to change this later
-                              app_details: "" },
-                        { connection_details : {client_id: "a19866e8-bdf3-4f53-85c8-7e399b4154fe",
-                                  scope: "patient/Patient.read patient/Observation.read online_access openid profile",
-                                  state: generateStateValue(),
-                                  redirect_uri: "https://pmukasa.github.io/epicpatientapp/launch.html",
-                                  iss: "https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
-                                  // access_token: "",
-                                 },
-                                 connection_attempt : 0,
-                                app_details: "" },
-                                ],
-                         };
-
-        // tokens are fetched from the response
-
-        var myApp = {} ;
-
-        var all_hospital_data = JSON.parse(localStorage.getItem('hospital_info'));
-
-
-        async function dada () {
-
-         await FHIR.oauth2.ready().then( (client) => {
-
-console.log(client);
-
-// myApp.smart = client;
-
-hospital = all_hospital_data.hospitals.find(record => record.connection_details.client_id === client.state.clientId ) ;
-
-indexOfRecord = all_hospital_data.hospitals.indexOf(hospital);
-
-console.log("The index of the record is " + indexOfRecord);
-
-all_hospital_data.hospitals[indexOfRecord].app_details = client;
-
-console.log("the credentials are as follows");
-
-console.log(all_hospital_data);
-
-gaga;
-
-/**
- * 
-update = all_hospital_data.hospitals.find(record => record.connection_details.client_id === client.state.clientId ) ;
-
-console.log("Search in hospital records");
-
-console.log(all_hospital_data.hospitals);
-
-console.log("searching for client id");
-
-console.log(client.state.clientId);
-
-console.log("matched record");
-
-console.log(update);
-
-update.app_details = client;
-
-all_hospital_data.hospitals = all_hospital_data.hospitals.filter(record => record.connection_details.client_id !== hospital.connection_details.client_id)
-
-all_hospital_data.hospitals.push(update);
-
-**/
-
-// find the matching client Id and populate
-
-localStorage.setItem( 'hospital_info' , JSON.stringify(all_hospital_data) );
-
-// localStorage.setItem("first_time","1");
-
-}).catch((error) => { 
-sessionStorage.setItem("first_time","0");
-console.log(error);
-});
-
-            
-        };
-
-//         await 
-// await FHIR.oauth2.ready().then( (client) => {
-//  console.log("A client has been found");
-// console.log(client);
-
-
-// }).catch((error) => { 
-//       //sessionStorage.setItem("first_time","0");
-//       console.log("A non match for the client has occurred or no client");
-//       console.log(error);
-//     });
-
-
-    if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !sessionStorage.getItem("first_time") ) 
-{
-
-  console.log("Hello there, next we call the dada function");
-
-   dada();
-
-   asd;
-}
-
-
-    /**
-
-
-// if (localStorage.hospital_info !== undefined)
-if (all_hospital_data !== undefined &&  sessionStorage.first_time === "1" ) // !sessionStorage.getItem("first_time") ) 
-{
-
-  console.log("Hello there");
-
-  // all_hospital_data = JSON.parse(localStorage.getItem('hospital_info'));
-    
-   FHIR.oauth2.ready().then( (client) => {
-
-      console.log(client);
-
-      // myApp.smart = client;
-
-      update = all_hospital_data.hospitals.find(record => record.connection_details.client_id === client.state.client_id ) ;
-
-      console.log("Search in hospital records");
-
-      console.log(all_hospital_data.hospitals);
-
-      console.log("searching for client id");
-
-      console.log(client.state.client_id);
-
-      console.log("matched record");
-
-      console.log(update);
-
-      update.app_details = client;
-
-      all_hospital_data.hospitals = all_hospital_data.hospitals.filter(record => record.connection_details.client_id !== hospital.connection_details.client_id)
-      
-      all_hospital_data.hospitals.push(update);
-
-      // find the matching client Id and populate
-
-      localStorage.setItem( 'hospital_info' , JSON.stringify(all_hospital_data) );
-      
-      // localStorage.setItem("first_time","1");
-
-    }).catch((error) => { 
-      sessionStorage.setItem("first_time","0");
-      console.log(error);
-    });
-
-  } **/
-  else 
-
-    // if (localStorage.hospital_info === undefined)
-    {
-      console.log("Entering the else statement");
-
-       // localStorage.setItem( 'hospital_info' , JSON.stringify(hospital_dict) );  
-
-       all_hospital_data = hospital_dict;
-
-       console.log("INITIAL Number if hospitals " + all_hospital_data.hospitals.length );
-
-    }
-
-    console.log("Outside the if statement now")
-
-    // returns the first matching record
-    // https://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
-
-    var hospital =  all_hospital_data.hospitals.find(record => record.connection_attempt === 0 && record.app_details === "" ) ;
-
-    if (hospital !== undefined){
-
-
-      console.log("BEFORE FILTER Number if hospitals " + all_hospital_data.hospitals.length );
-console.log(all_hospital_data);
-       // creates a new array and assign back
-
-      // var hopital = all_hospital_data.hospitals.filter(record => record.connection_details.client_id !== hospital.connection_details.client_id);
-
-      // all_hospital_data.hospitals =  all_hospital_data.hospitals.filter(record => record.connection_details.client_id !== hospital.connection_details.client_id);
-
-     
-      console.log("AFTER FILTER Number if hospitals " + all_hospital_data.hospitals.length );
-
-// hospital.connection_attempt = 1;
-
-// console.log(all_hospital_data.hospitals);
-
-
-// all_hospital_data.hospitals.push(hospital);
-
-indexOfRecord = all_hospital_data.hospitals.indexOf(hospital);
-
-console.log("The index of the record is " + indexOfRecord );
-
-all_hospital_data.hospitals[indexOfRecord].connection_attempt = 1;
-
-
-console.log("AFTER UPDATE Number if hospitals " + all_hospital_data.hospitals.length );
-
-console.log(all_hospital_data);
-
-localStorage.setItem('hospital_info', JSON.stringify(all_hospital_data));
-
-sessionStorage.setItem("first_time","1");
-
-console.log("attempting to authorize with:");
-
-console.log(hospital.connection_details);
-
-// gaga;
-
-FHIR.oauth2.authorize(hospital.connection_details);
-
-    }
-    else {
-      console.log(all_hospital_data);
-    }
-
-
-
-
-  
-  
-
-
-
-
-    // hospital['connection_details'].client_id
-
-    // FHIR.oauth2.authorize(hospital[0]);
-
- 
-
-    // console.log(JSON.parse(localStorage.getItem('hospital_info')).hospitals.find(record => record.connection_attempt === 0) )
-
-    /* if there is a local file or another source having the authentication keys already, we read them in at this point*/
-
-
-    /* Call the authorise function sequentially */
-
-    // for (var key in hospital_dict){
-    //   if (key.access_token === 'undefined'){
-    //     page_status = 1;
-    //     FHIR.oauth2.authorize(key);
-    //   }
-
-    // };
-
-//const available_keys = []
-
-/**
-
-      function generateStateValue(length = 32) {
-        const array = new Uint8Array(length);
-        window.crypto.getRandomValues(array);
+      var hospital_dict = {
+        hospitals: [
+          {
+            connection_details: {
+              client_id: "12d221e3-f893-408f-bba2-b9cf72e6438e",
+              scope:
+                "PATIENT.READ PATIENT.SEARCH OBSERVATION.READ OBSERVATION.SEARCH",
+              redirect_uri:
+                "https://pmukasa.github.io/epicpatientapp/launch.html",
+              iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
+              // access_token: "",
+            },
+            connection_attempt: 0, // remember to change this later
+            sessionDetails: "",
+          },
+          {
+            connection_details: {
+              client_id: "a19866e8-bdf3-4f53-85c8-7e399b4154fe",
+              scope:
+                "patient/Patient.read patient/Observation.read online_access openid profile",
+              state: generateStateValue(),
+              redirect_uri:
+                "https://pmukasa.github.io/epicpatientapp/launch.html",
+              iss: "https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
+              // access_token: "",
+            },
+            connection_attempt: 0,
+            sessionDetails: "",
+          },
+        ],
+      };
+
+      // tokens are fetched from the response
+
+      var myApp = {};
+
+      var all_hospital_data = JSON.parse(localStorage.getItem("hospital_info"));
+
+
+      if (
+        all_hospital_data !== undefined &&
+        sessionStorage.first_time === "1"
+      ) {
+        // !sessionStorage.getItem("first_time") )
+        console.log("Hello there, next we call the dada function");
+
+        dada(all_hospital_data);
+
+        asd;
+      } else if (sessionStorage.first_time === "0") {
+        console.log("Entering the else statement");
+
+        all_hospital_data = hospital_dict;
+
+        console.log(
+          "INITIAL Number if hospitals " + all_hospital_data.hospitals.length
+        );
+
+        callback1(all_hospital_data);
       }
 
-      FHIR.oauth2.authorize([
-        {
-          issMatch: /\bepic\b/i,
-          client_id: "12d221e3-f893-408f-bba2-b9cf72e6438e",
-          scope:
-            "PATIENT.READ PATIENT.SEARCH OBSERVATION.READ OBSERVATION.SEARCH",
-          redirect_uri: "https://pmukasa.github.io/epicpatientapp/app.html",
-        },
+      console.log("Outside the if statement now");
+      
 
-        {
-          issMatch: /\bcerner\b/i,
-          client_id: "a19866e8-bdf3-4f53-85c8-7e399b4154fe",
-          scope:
-            "patient/Patient.read patient/Observation.read online_access openid profile",
-          state: generateStateValue(),
-          redirect_uri: "https://pmukasa.github.io/epicpatientapp/app.html",
-        },
-      ]);
+      /**
+       *  FUNCTION DEFINITIONS
+       * 
+       **/
 
-      **/
-
-      /*
-      		FHIR.oauth2.authorize({
-      'client_id': '12d221e3-f893-408f-bba2-b9cf72e6438e',
-      'scope':  'PATIENT.READ PATIENT.SEARCH OBSERVATION.READ OBSERVATION.SEARCH',
-      'redirect_uri': 'https://pmukasa.github.io/epicpatientapp/app.html',
-      // 'iss': 'https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4'
-    }); 
+      async function dada(horse) {
+        await FHIR.oauth2
+          .ready()
+          .then((client) => {
+            callback2(client, horse, callback1);
+          })
+          .catch((error) => {
+            sessionStorage.setItem("first_time", "0");
+            console.log(error);
+          });
+      }
 
 
-		FHIR.oauth2.authorize({
-    'client_id': 'a19866e8-bdf3-4f53-85c8-7e399b4154fe',
-    'scope': 'patient/Patient.read patient/Observation.read online_access openid profile',
-    'state': generateStateValue(),
-    'redirect_uri': 'https://pmukasa.github.io/epicpatientapp/app.html',
-    // 'aud': 'https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d',
-    // 'iss': 'https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d'
-}); */
+      function callback1(_all_hospital_data) {
+        var hospital = _all_hospital_data.hospitals.find(
+          (record) =>
+            record.connection_attempt === 0 && record.sessionDetails === ""
+        );
+
+        if (hospital !== undefined) {
+          var indexOfRecord = _all_hospital_data.hospitals.indexOf(hospital);
+
+          _all_hospital_data.hospitals[indexOfRecord].connection_attempt = 1;
+
+          localStorage.setItem(
+            "hospital_info",
+            JSON.stringify(_all_hospital_data)
+          );
+
+          sessionStorage.setItem("first_time", "1");
+
+          FHIR.oauth2.authorize(hospital.connection_details);
+        } else {
+          console.log(_all_hospital_data);
+        }
+      }
+
+      function callback2(_client, _all_hospital_data, callback1) {
+        var hospital = _all_hospital_data.hospitals.find(
+          (record) =>
+            record.connection_details.client_id === _client.state.clientId
+        );
+
+        var indexOfRecord = _all_hospital_data.hospitals.indexOf(hospital);
+
+        _all_hospital_data.hospitals[indexOfRecord].sessionDetails = _client;
+
+        localStorage.setItem(
+          "hospital_info",
+          JSON.stringify(_all_hospital_data)
+        );
+
+        callback1(_all_hospital_data);
+      }
+
     </script>
   </body>
 </html>
