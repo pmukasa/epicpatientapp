@@ -27,11 +27,11 @@
 
         console.log(_client);
 
-        console.log(_client.getAuthorizationHeader());
+        console.log(_client.state.tokenResponse.access_token);
 
         console.log(_client.request("metadata"));
 
-        return _client.getAuthorizationHeader();
+        return _client.state.tokenResponse.access_token;
 
       };
 
