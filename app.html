@@ -35,7 +35,7 @@
 
       all_hospital_info = JSON.parse(localStorage.getItem("hospital_info"));
 
-      const authHeaders = all_hospital_data.hospitals.filter(record => record.app_details !== "").map(processRecord);
+      const authHeaders = all_hospital_info.hospitals.filter(record => record.app_details !== "").map(processRecord);
 
       console.log("These were the found auth headers");
 
