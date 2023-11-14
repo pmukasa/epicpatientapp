@@ -114,8 +114,12 @@
 
           FHIR.oauth2.authorize(hospital.connection_details);
         } else {
-          console.log("done atleast a connection attempt to every server");
+          console.log("done atleast a connection attempt to every server");          
           console.log(_all_hospital_data);
+
+          // Simulate a mouse click:
+          window.location.href = "./app.html";
+
         }
 
         console.log("exiting callback 1");
@@ -145,6 +149,11 @@
       }
 
       // tokens are fetched from the response
+
+      /**
+      async function main(){
+
+      }**/
 
       var myApp = {};
 
