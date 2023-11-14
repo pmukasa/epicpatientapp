@@ -90,6 +90,9 @@
 
 
       function callback1(_all_hospital_data) {
+
+        console.log("inside of callback1");
+
         var hospital = _all_hospital_data.hospitals.find(
           (record) =>
             record.connection_attempt === 0 && record.sessionDetails === ""
@@ -111,9 +114,14 @@
         } else {
           console.log(_all_hospital_data);
         }
+
+        console.log("exiting callback 1");
       }
 
       function callback2(_client, _all_hospital_data, callback1) {
+
+        console.log("inside of callback 2");
+
         var hospital = _all_hospital_data.hospitals.find(
           (record) =>
             record.connection_details.client_id === _client.state.clientId
@@ -129,6 +137,8 @@
         );
 
         callback1(_all_hospital_data);
+
+        console.log("exiting callback 2");
       }
 
 
@@ -152,7 +162,7 @@
         dada(all_hospital_data);
 
         asd;
-      } else if (sessionStorage.first_time === "0") {
+      } else if (sessionStorage.first_time === "0" || sessionStorage.first_time == null) {
         console.log("Entering the else statement");
 
         all_hospital_data = hospital_dict;
