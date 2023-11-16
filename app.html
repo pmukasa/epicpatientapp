@@ -23,15 +23,17 @@
 
       //
 
+      var myApp = {}; // will need to delete and use the one in the function later on
+
       function processRecord(_hospitalDetails){
 
-        var myApp = {};
+        // var myApp = {};
 
         myApp.smart = _hospitalDetails.sessionDetails
 
-        console.log(myApp.smart);
+        // console.log(myApp.smart);
 
-        console.log(myApp.smart.state.tokenResponse.access_token);
+       // console.log(myApp.smart.state.tokenResponse.access_token);
 
         // console.log(myApp.smart.request("metadata"));
 
@@ -43,9 +45,25 @@
 
       const authHeaders = all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(processRecord);
 
-      console.log("These were the found auth headers");
+      // console.log("These were the found auth headers");
 
-      console.log(authHeaders.join(" * "));
+      // console.log(authHeaders.join(" * "));
+
+      var codes = [
+          "social-history",
+          "vital-signs",
+          "imaging",
+          "laboratory",
+          "procedure",
+          "survey",
+          "exam",
+          "therapy",
+          "activity",
+        ];
+
+        //codes.map(code => pullRecords2(code));
+
+        pullRecords2(codes);
 
 
       // Algorithm,
