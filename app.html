@@ -61,9 +61,13 @@
           "activity",
         ];
 
+
+        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords3);
+        
+
         //codes.map(code => pullRecords2(code));
 
-        pullRecords2(codes);
+        // pullRecords2(codes);
 
 
       // Algorithm,
@@ -134,6 +138,108 @@
           .then(function (fhir_resource) {
             console.log(fhir_resource);
           });
+      }
+
+
+      async function pullRecords3(_hospitalDetails) {
+        // var loincs = [encodeURIComponent("http://loinc.org|4548-4")]; //4548-4 = HgA1C  //4544-3 = hematocrit
+        // console.log(loincs);
+
+        observation_codes = ["social-history", "vital-signs" ];
+
+        myApp.smart = _hospitalDetails.sessionDetails
+
+        var obs = await fetch(
+          myApp.smart.state.serverUrl +
+            "/Observation?patient=" +
+            myApp.smart.patient.id +
+            "&category=" +
+            observation_codes.join(",") +
+            "&_summary=true",
+          {
+            headers: {
+              Accept: "application/json+fhir",
+              // myApp.smart.getAuthorizationHeader()
+              Authorization:
+                "Bearer " + myApp.smart.state.tokenResponse.access_token,
+            },
+          }
+        ).then(function (data) {
+          return data;
+        });
+
+        // creating a Javascript object from JSON string , can also use JSON.parse()
+
+        var responsejson = await obs.json();
+
+        console.log(responsejson);
+/**
+        for (let i in responsejson.entry) {
+          if (
+            responsejson.entry[i].resource.category[0].coding[0]["code"] ===
+            "social-history"
+          ) {
+            // console.log(responsejson.entry[i]);
+
+            if (
+              responsejson.entry[i].resource?.code?.text.match(
+                /SHX|MHX|FHX/
+              ) !== null
+            ) {
+              const datafields = {
+                date: responsejson.entry[i].resource?.effectiveDateTime || "",
+                observation:
+                  responsejson.entry[i].resource?.code?.coding[0]?.display ||
+                  "",
+                response:
+                  responsejson.entry[i].resource?.valueCodeableConcept?.text ||
+                  "",
+
+                // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '',
+                // observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '',
+                // state: ( typeof response.entry[i].resource.valueCodeableConcept.text !== 'undefined' ) ? response.entry[i].resource.valueCodeableConcept.text : '',
+              };
+
+              //console.log(datafields);
+            }
+          }
+
+
+          if ( responsejson.entry[i].resource.category[0].coding[0]["code"] ===
+          "vital-signs"){
+            console.log(responsejson.entry[i]);
+
+            if (responsejson.entry[i].resource.component === undefined ){
+              console.log("Yes");
+
+              const datafields = {
+                date: responsejson.entry[i].resource?.effectiveDateTime || "",
+                observation:
+                  responsejson.entry[i].resource?.code?.coding[0]?.display ||
+                  "",
+                measurement:
+                  responsejson.entry[i].resource?.valueQuantity?.value.concat(" ", responsejson.entry[i].resource?.valueQuantity?.unit || "unit")  ||
+                  "",
+
+                // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '',
+                // observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '',
+                // state: ( typeof response.entry[i].resource.valueCodeableConcept.text !== 'undefined' ) ? response.entry[i].resource.valueCodeableConcept.text : '',
+              };
+
+              console.log(datafields);
+
+            }else{
+console.log("no");
+
+            };
+
+          };
+
+
+
+        }
+      
+      **/
       }
 
       async function pullRecords2(observation_codes) {
