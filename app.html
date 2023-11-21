@@ -151,14 +151,15 @@
 
         var obs = await fetch(
           myApp.smart.state.serverUrl +
-            "/Observation?patient=" +
-            myApp.smart.patient.id +
-            "&category=" +
-            observation_codes.join(",") +
+           // "/Observation?patient=" +
+           // myApp.smart.patient.id +
+           // "&category=" +
+           // observation_codes.join(",") +
           //  "&code-value-quantity:missing=" false +
-            "&code-value-quantity=8867-4$eq59"+
+            "/Observation?code-value-quantity=8867-4$eq59"+
           // "&combo-value-quantity=59"+
             //"&result.code-value-quantity=8867-4"+
+
             "&_summary=true",
           {
             headers: {
