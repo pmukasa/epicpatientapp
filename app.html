@@ -148,11 +148,18 @@
         observation_codes = ["social-history", "vital-signs" ];
 
         myApp.smart = _hospitalDetails.sessionDetails
+        // fOR 
+        // patient is must for the resources
+        // the category or code is a must for an observation resource, there are 7 possible options
+
+        // when a search is performed, some servers return errors
+        // others return the default output TOOK A SCREENSHOT OF THIS
 
         var obs = await fetch(
           myApp.smart.state.serverUrl +
             "/Observation?patient=" +
             myApp.smart.patient.id +
+            "&category=vital-signs" +
            // "&category=" +
            // observation_codes.join(",") +
           //  "&code-value-quantity:missing=" false +
