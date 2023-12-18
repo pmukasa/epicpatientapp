@@ -65,7 +65,7 @@
         all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords3);
         
 
-        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords5);
+        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords4);
 
         //codes.map(code => pullRecords2(code));
 
@@ -278,8 +278,9 @@ console.log("no");
 
         var obs = await fetch(
           myApp.smart.state.serverUrl +
-            "/CapabilityStatement?patient=" +
-            myApp.smart.patient.id ,
+          "/metadata",
+            // "/CapabilityStatement?patient=" +
+            // myApp.smart.patient.id ,
           {
             headers: {
               Accept: "application/json+fhir",
