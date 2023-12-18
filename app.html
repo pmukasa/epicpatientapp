@@ -67,6 +67,10 @@
 
         all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords4);
 
+        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords5);
+
+        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords6);
+
         //codes.map(code => pullRecords2(code));
 
         // pullRecords2(codes);
@@ -142,11 +146,57 @@
           });
       }
 
-      async function pullRecords5(_hospitalDetails){
-        myApp.smart = _hospitalDetails.sessionDetails;
+      async function pullRecords6(_hospitalDetails){
 
-        console.log(myApp.smart.request("metadata"));
-      }
+myApp.smart = _hospitalDetails.sessionDetails
+
+var obs = await fetch(
+  myApp.smart.state.serverUrl +
+  "/StructureDefinition",
+  {
+    headers: {
+      Accept: "application/json+fhir",
+      Authorization:
+        "Bearer " + myApp.smart.state.tokenResponse.access_token,
+    },
+  }
+).then(function (data) {
+  return data;
+});
+
+// creating a Javascript object from JSON string , can also use JSON.parse()
+
+var responsejson = await obs.json();
+
+console.log(responsejson);
+
+}
+
+      async function pullRecords5(_hospitalDetails){
+
+myApp.smart = _hospitalDetails.sessionDetails
+
+var obs = await fetch(
+  myApp.smart.state.serverUrl +
+  "/ImplementationGuide",
+  {
+    headers: {
+      Accept: "application/json+fhir",
+      Authorization:
+        "Bearer " + myApp.smart.state.tokenResponse.access_token,
+    },
+  }
+).then(function (data) {
+  return data;
+});
+
+// creating a Javascript object from JSON string , can also use JSON.parse()
+
+var responsejson = await obs.json();
+
+console.log(responsejson);
+
+}
 
 
       async function pullRecords3(_hospitalDetails) {
