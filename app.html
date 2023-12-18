@@ -65,6 +65,8 @@
         all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords3);
         
 
+        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords4);
+
         //codes.map(code => pullRecords2(code));
 
         // pullRecords2(codes);
@@ -257,6 +259,41 @@ console.log("no");
       **/
       }
 
+
+      async function pullRecords4(_hospitalDetails){
+
+        myApp.smart = _hospitalDetails.sessionDetails
+        // fOR 
+        // patient is must for the resources
+        // the category or code is a must for an observation resource, there are 7 possible options
+
+        // when a search is performed, some servers return errors
+        // others return the default output TOOK A SCREENSHOT OF THIS
+
+        var obs = await fetch(
+          myApp.smart.state.serverUrl +
+            "/CapabilityStatement?patient=" +
+            myApp.smart.patient.id ,
+          {
+            headers: {
+              Accept: "application/json+fhir",
+              // myApp.smart.getAuthorizationHeader()
+              Authorization:
+                "Bearer " + myApp.smart.state.tokenResponse.access_token,
+            },
+          }
+        ).then(function (data) {
+          return data;
+        });
+
+        // creating a Javascript object from JSON string , can also use JSON.parse()
+
+        var responsejson = await obs.json();
+
+        console.log(responsejson);
+
+      }
+
       async function pullRecords2(observation_codes) {
         // var loincs = [encodeURIComponent("http://loinc.org|4548-4")]; //4548-4 = HgA1C  //4544-3 = hematocrit
         // console.log(loincs);
@@ -399,5 +436,64 @@ console.log("no");
         $("#main").html(toInsert);
       }
     </script>
+
+
+
+# Summary
+## create a template
+## Extract template fields from JSON objects key value pair 
+## if all fields are not successfully extracted return null
+
+# How to implement
+## consider flattening  or object deconstruction maybe?
+## may be use native methods such map filter to get the keyvalue pairs, create sets using the values and validate for any intersections
+## of interest would be the code and value, could be common from different institutions but not at the same institution can use date to distinguish (could not visit two institutions at the same time)
+
+class Observation(){
+  constructor(category, recordDate, value, code){
+    this.category = category; // array of dicts of different categories associated with the resource, cardinality
+    this.observed = code.text // what was exactly observed, did not use the code.coding (cardinality), took text... may need text similarily later on 
+    this.recordDate = recordDate;
+    this.value = values; // dict detailing valueQuantity or valueText 
+  }
+
+  # get the elements for the objects, arrays in arrays
+  # parse them
+  
+  setCategories(){
+  this.category.ForEach( (data) => data = data.coding.code) or data.coding[0].code
+  }
+
+  applyRule(ruleTemplate){
+
+    if this.category.length > 1
+
+    # what type is the template 
+    # focus on the values and code
+    # 
+
+    # condition met 
+    return certain_object
+
+    # condition not met 
+    
+
+  }
+
+  # Rule 1
+
+  # Rule 2
+
+  # Rule 3
+
+  # Rule 4
+
+  # Rule 5
+
+  # Rule 6
+}
+
+
+
   </body>
 </html>
