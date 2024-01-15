@@ -572,7 +572,7 @@ if (loinc_code !== '85354-9'){
     // matched_result = response.code.coding.filter(item => item.code === loinc_code).filter(item => item.valueQuantity.code  !== 'undefined' )
 
 
-    matched_result = response.entry.forEach( (observation) => observation.resource.code.coding.filter(item => item.code === loinc_code).filter(item => item.valueQuantity.code  !== 'undefined' ))
+    matched_result = response.entry.forEach( (observation) => observation.resource.code.coding.filter(item => item.code === loinc_code)) // .filter(item => item.valueQuantity.code  !== 'undefined' ))
   
     // Appending to output_data
 
