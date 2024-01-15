@@ -62,14 +62,18 @@
         ];
 
 
-        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords3);
-        
-
-        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords4);
-
+     
         // all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords5);
 
         // all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords6);
+
+
+        /****  one of the below two has to do with the capability statements
+
+        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords3);
+        
+        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords4);
+        ****/
 
         all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(doTesting);
 
