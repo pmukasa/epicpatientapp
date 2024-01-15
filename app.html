@@ -574,6 +574,9 @@ if (loinc_code !== '85354-9'){
 
     matched_result = response.entry.forEach( (observation) => observation.resource.code.coding.filter(item => item.code === loinc_code)) // .filter(item => item.valueQuantity.code  !== 'undefined' ))
   
+
+    console.log(matched_result);
+    
     // Appending to output_data
 
     matched_result.forEach( (obs_resource) => vital_signs_data[loinc_code].results.push({ 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code}) )
