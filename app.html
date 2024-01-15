@@ -509,8 +509,9 @@ console.log("no");
 
 vital_signs_data = 
                 {
-                '8867-4' : { display: 'Heart Rate', results: [] }, // https://hl7.org/fhir/R4/heartrate.html#10.1.25.2
                 '8302-2' : { display: 'Body Height', results: [] }, // https://hl7.org/fhir/R4/bodyheight.html
+                '8867-4' : { display: 'Heart Rate', results: [] }, // https://hl7.org/fhir/R4/heartrate.html#10.1.25.2
+                
                 '29463-7' : { display: 'Body Weight', results: [] }, // https://hl7.org/fhir/R4/bodyweight.html
                 '9279-1' : { display: 'Respiratory Rate', results: [] }, // https://hl7.org/fhir/R4/resprate.html
                 '8310-5' : { display: 'Body Temperature', results: [] }, // https://hl7.org/fhir/R4/bodytemp.html
@@ -576,7 +577,7 @@ if (loinc_code !== '85354-9'){
   
 
     console.log(matched_result);
-    
+
     // Appending to output_data
 
     matched_result.forEach( (obs_resource) => vital_signs_data[loinc_code].results.push({ 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code}) )
