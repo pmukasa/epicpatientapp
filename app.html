@@ -566,6 +566,8 @@ function parsingFunction(loinc_code , response){
 if (loinc_code !== '85354-9'){
 
   console.log(response);
+
+  console.log(response.entry);
     
     // matched_result = response.code.coding.filter(item => item.code === loinc_code).filter(item => item.valueQuantity.code  !== 'undefined' )
 
