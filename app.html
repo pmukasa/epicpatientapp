@@ -513,7 +513,7 @@ vital_signs_data =
                 '9843-4' : { display: 'Head Circumferencee', results: [] }, // https://hl7.org/fhir/R4/headcircum.html
                 '2708-6' : { display: 'Oxygen Saturation', results: [] }, // https://hl7.org/fhir/R4/oxygensat.html
                 '39156-5' : { display: 'Body Mass Index', results: [] }, // https://hl7.org/fhir/R4/bmi.html
-                '85354-9' : { component: { '8480-6' : { display: 'Systolic Blood Pressure', results: [] }, '8462-4' : { display: 'Diastolic Blood Pressure', results: [] } } }, // https://hl7.org/fhir/R4/bp.html
+                '85354-9' : { component: { 8480_6 : { display: 'Systolic Blood Pressure', results: [] }, 8462_4 : { display: 'Diastolic Blood Pressure', results: [] } } }, // https://hl7.org/fhir/R4/bp.html
                 '2085-9' : { display: 'HDL Cholesterol', results: [] }, // https://hl7.org/fhir/R4/hdlcholesterol.html
                 }
               
@@ -542,8 +542,9 @@ async function doTesting(_hospitalDetails) {
           return data;
         });
 
-        var response = await obs.json();
+        var _response = await obs.json();
 
+        // all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords4);
 
         Object.keys(vital_signs_data).ForEach( (loinc_code) => parsingFunction(_loinc_code , _response))
 
@@ -558,7 +559,7 @@ function parsingFunction(loinc_code , response){
 
 if (loinc_code !== '85354-9'){
     
-    matched_result = Observation.code.coding.filter(item => item.code === loinc_code).filter(item => item.valueQuantity.code  !== 'undefined' )
+    matched_result = response.code.coding.filter(item => item.code === loinc_code).filter(item => item.valueQuantity.code  !== 'undefined' )
 
     // Appending to output_data
 
@@ -566,11 +567,21 @@ if (loinc_code !== '85354-9'){
  }
  else // specifically for blood pressure that has two readings
  {
-    matched_result = Observation.code.coding.filter(item => item.code === loinc_code)
 
-    matched_result.ForEach( (obs_resource) => vital_signs_data[loinc_code].component.'8480-6'.results.push( { 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code } ) )
+   // matched_result = Observation.code.coding.filter(item => item.code === loinc_code)
 
-    matched_result.ForEach( (obs_resource) => vital_signs_data[loinc_code].component.'8462-4'.results.push( { 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code }) )
+   // 'Systolic Blood Pressure'
+
+   response.component.code.coding.filter(item => item.code === '8480-6').ForEach( (obs_resource) => vital_signs_data[loinc_code].component.8480_6.results.push( { 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code } ) )
+
+  // 'Diastolic Blood Pressure'
+  response.component.code.coding.filter(item => item.code === '8462-4').ForEach( (obs_resource) => vital_signs_data[loinc_code].component.8462_4.results.push( { 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code }) )
+
+    
+
+    // matched_result.ForEach( (obs_resource) => vital_signs_data[loinc_code].component.8480_6.results.push( { 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code } ) )
+
+    // matched_result.ForEach( (obs_resource) => vital_signs_data[loinc_code].component.8462_4.results.push( { 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code }) )
 
  }
 
@@ -584,14 +595,7 @@ if (loinc_code !== '85354-9'){
    // Handling cardinality, using the must included fields for certain profiles
    // look though each loinc code provided for matches, special case applies for BP
 
-
-
-
-
-
-
-
-    </script>
+  </script>
 
 
 # Summary
