@@ -548,7 +548,7 @@ async function doTesting(_hospitalDetails) {
 
         console.log(Object.keys(vital_signs_data));
 
-        Object.keys(vital_signs_data).ForEach( (loinc_code) => parsingFunction(_loinc_code , _response))
+        Object.keys(vital_signs_data).forEach( (loinc_code) => parsingFunction(_loinc_code , _response))
 
         // loinc_code_index = vital_signs_data.indexOf(loinc_code)
 
