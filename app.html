@@ -546,6 +546,8 @@ async function doTesting(_hospitalDetails) {
 
         // all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords4);
 
+        console.log(Object.keys(vital_signs_data));
+
         Object.keys(vital_signs_data).ForEach( (loinc_code) => parsingFunction(_loinc_code , _response))
 
         // loinc_code_index = vital_signs_data.indexOf(loinc_code)
