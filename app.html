@@ -569,9 +569,11 @@ console.log(observationResource.resource.code.coding);
 
 vital_signs_data[loinc_code].results.push({ 'value': observationResource.resource.valueQuantity.value, 'code': observationResource.resource.valueQuantity.code}) ;
 
+console.log(vital_signs_data);
+
 }
 
-console.log(vital_signs_data);
+
 
 }
 
@@ -580,9 +582,9 @@ function parsingFunction(loinc_code , response){
 
 if (loinc_code !== '85354-9'){
 
-  console.log(response);
+  // console.log(response);
 
-  console.log(response.entry);
+  // console.log(response.entry);
 
   console.log(loinc_code);
 
