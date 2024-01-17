@@ -561,13 +561,13 @@ async function doTesting(_hospitalDetails) {
 
 }
 
-function setResult(loinc_code, observationResource)
+function setResult(loinc_code, observation)
 {
-  if (observationResource.resource.code.coding.filter(item => item.code === loinc_code).length === 1){
+  if ( observation.resource.code.coding.filter(item => item.code === loinc_code).length === 1 ){
 
-console.log(observationResource.resource);
+console.log(observation.resource);
 
-vital_signs_data[loinc_code].results.push({ 'value': observationResource.resource.valueQuantity.value, 'code': observationResource.resource.valueQuantity.code}) ;
+vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code}) ;
 
 console.log(vital_signs_data);
 
@@ -580,6 +580,8 @@ console.log(vital_signs_data);
 function parsingFunction(loinc_code , response){
 
 
+
+
 if (loinc_code !== '85354-9'){
 
   // console.log(response);
@@ -588,9 +590,14 @@ if (loinc_code !== '85354-9'){
 
   console.log(loinc_code);
 
+  console.log(vital_signs_data);
+
   response.entry.forEach( (observation) => setResult(loinc_code, observation) // console.log(observation.resource.code.coding.filter(item => item.code === loinc_code).length)
   
   ) 
+
+  console.log(vital_signs_data);
+  
   // .filter(item => item.valueQuantity.code  !== 'undefined' ))
   
 
