@@ -565,7 +565,7 @@ function setResult(loinc_code, observationResource)
 {
   if (observationResource.resource.code.coding.filter(item => item.code === loinc_code).length === 1){
 
-console.log(observationResource.resource.code.coding);
+console.log(observationResource.resource);
 
 vital_signs_data[loinc_code].results.push({ 'value': observationResource.resource.valueQuantity.value, 'code': observationResource.resource.valueQuantity.code}) ;
 
