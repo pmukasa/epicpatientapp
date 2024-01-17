@@ -561,7 +561,7 @@ async function doTesting(_hospitalDetails) {
 
 }
 
-function setResult(observationResource)
+function setResult(loinc_code, observationResource)
 {
   if (observationResource.resource.code.coding.filter(item => item.code === loinc_code).length === 1){
 
