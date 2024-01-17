@@ -510,8 +510,7 @@ console.log("no");
 vital_signs_data = 
                 {
                 '8302-2' : { display: 'Body Height', results: [] }, // https://hl7.org/fhir/R4/bodyheight.html
-                '8867-4' : { display: 'Heart Rate', results: [] }, // https://hl7.org/fhir/R4/heartrate.html#10.1.25.2
-                
+                '8867-4' : { display: 'Heart Rate', results: [] }, // https://hl7.org/fhir/R4/heartrate.html#10.1.25.2         
                 '29463-7' : { display: 'Body Weight', results: [] }, // https://hl7.org/fhir/R4/bodyweight.html
                 '9279-1' : { display: 'Respiratory Rate', results: [] }, // https://hl7.org/fhir/R4/resprate.html
                 '8310-5' : { display: 'Body Temperature', results: [] }, // https://hl7.org/fhir/R4/bodytemp.html
@@ -563,19 +562,28 @@ async function doTesting(_hospitalDetails) {
 
 function setResult(loinc_code, observation)
 {
-  if ( observation.resource.code.coding.filter(item => item.code === loinc_code).length === 1 ){
+  if ( observation.resource.code.coding.filter(item => item.code === loinc_code).length === 1 & observation.resource.valueQuantity.code  !== 'undefined' ){
 
-console.log(observation.resource);
+  vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code}) ;
+
+}
+
+}
+
+function setResult(loinc_code, observation, item_code)
+{
+
+  
+
+  if ( observation.resource.component.code.coding.filter(item => item.code === '8480-6').length === 1 & observation.resource.valueQuantity.code  !== 'undefined' ){
 
 vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code}) ;
 
-console.log(vital_signs_data);
-
 }
 
-
-
+   
 }
+
 
 function parsingFunction(loinc_code , response){
 
@@ -588,16 +596,16 @@ if (loinc_code !== '85354-9'){
 
   // console.log(response.entry);
 
-  console.log(loinc_code);
+  //console.log(loinc_code);
 
-  console.log(vital_signs_data);
+  // console.log(vital_signs_data);
 
   response.entry.forEach( (observation) => setResult(loinc_code, observation) // console.log(observation.resource.code.coding.filter(item => item.code === loinc_code).length)
   
   ) 
 
-  console.log(vital_signs_data);
-  
+  // console.log(vital_signs_data);
+
   // .filter(item => item.valueQuantity.code  !== 'undefined' ))
   
 
@@ -607,14 +615,14 @@ if (loinc_code !== '85354-9'){
     // response.entry.forEach( (observation) => console.log(observation.resource.code.coding.filter(item => item.code === loinc_code).length)) // .filter(item => item.valueQuantity.code  !== 'undefined' ))
   
 
-    matched_result = response.entry.forEach( (observation) => observation.resource.code.coding.filter(item => item.code === loinc_code)) // .filter(item => item.valueQuantity.code  !== 'undefined' ))
+    // matched_result = response.entry.forEach( (observation) => observation.resource.code.coding.filter(item => item.code === loinc_code)) // .filter(item => item.valueQuantity.code  !== 'undefined' ))
   
 
-    console.log(matched_result);
+    // console.log(matched_result);
 
     // Appending to output_data
 
-    matched_result.forEach( (obs_resource) => vital_signs_data[loinc_code].results.push({ 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code}) )
+    // matched_result.forEach( (obs_resource) => vital_signs_data[loinc_code].results.push({ 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code}) )
  }
  else // specifically for blood pressure that has two readings
  {
@@ -623,6 +631,15 @@ if (loinc_code !== '85354-9'){
 
    // 'Systolic Blood Pressure'
 
+  // response.entry.forEach( (observation) => setResult(loinc_code, observation))
+
+  // response.entry.forEach( (observation) => console.log( observation.resource.code.coding.filter(item => item.code === loinc_code).length)) // .filter(item => item.valueQuantity.code  !== 'undefined' ))
+  
+  // response.entry.forEach( (observation) => console.log( observation.resource.component.code.coding.filter(item => item.code === '8480-6').length )  )
+
+   response.entry.forEach( (observation) => console.log( observation.resource.component.code.coding.filter(item => item.code === '8462-4').length )  )
+
+ 
    response.component.code.coding.filter(item => item.code === '8480-6').forEach( (obs_resource) => vital_signs_data[loinc_code].component.systolic_bp_8480_6.results.push( { 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code } ) )
 
   // 'Diastolic Blood Pressure'
