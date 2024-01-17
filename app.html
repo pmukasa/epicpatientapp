@@ -586,7 +586,7 @@ if (loinc_code !== '85354-9'){
 
   console.log(loinc_code);
 
-  response.entry.forEach( (observation) => setResult(observation) // console.log(observation.resource.code.coding.filter(item => item.code === loinc_code).length)
+  response.entry.forEach( (observation) => setResult(loinc_code, observation) // console.log(observation.resource.code.coding.filter(item => item.code === loinc_code).length)
   
   ) 
   // .filter(item => item.valueQuantity.code  !== 'undefined' ))
