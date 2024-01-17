@@ -570,12 +570,12 @@ function setResult(loinc_code, observation)
 
 }
 
-function setResult(loinc_code, observation, item_code)
+function setResult(loinc_code, _observation, item_code)
 {
 
   
 
-  if ( observation.resource.component.code.coding.filter(item => item.code === '8480-6').length === 1 & observation.resource.valueQuantity.code  !== 'undefined' ){
+  if ( _observation.resource.component.code.coding.filter(item => item.code === '8480-6').length === 1 & observation.resource.valueQuantity.code  !== 'undefined' ){
 
 vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code}) ;
 
