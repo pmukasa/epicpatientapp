@@ -561,6 +561,20 @@ async function doTesting(_hospitalDetails) {
 
 }
 
+function setResult(observationResource)
+{
+  if (observationResource.resource.code.coding.filter(item => item.code === loinc_code).length === 1){
+
+console.log(observationResource.resource.code.coding);
+
+vital_signs_data[loinc_code].results.push({ 'value': observationResource.resource.valueQuantity.value, 'code': observationResource.resource.valueQuantity.code}) ;
+
+}
+
+console.log(vital_signs_data);
+
+}
+
 function parsingFunction(loinc_code , response){
 
 
@@ -571,10 +585,17 @@ if (loinc_code !== '85354-9'){
   console.log(response.entry);
 
   console.log(loinc_code);
+
+  response.entry.forEach( (observation) => setResult(observation) // console.log(observation.resource.code.coding.filter(item => item.code === loinc_code).length)
+  
+  ) 
+  // .filter(item => item.valueQuantity.code  !== 'undefined' ))
+  
+
     
     // matched_result = response.code.coding.filter(item => item.code === loinc_code).filter(item => item.valueQuantity.code  !== 'undefined' )
 
-    response.entry.forEach( (observation) => console.log(observation.resource.code.coding.filter(item => item.code === loinc_code))) // .filter(item => item.valueQuantity.code  !== 'undefined' ))
+    // response.entry.forEach( (observation) => console.log(observation.resource.code.coding.filter(item => item.code === loinc_code).length)) // .filter(item => item.valueQuantity.code  !== 'undefined' ))
   
 
     matched_result = response.entry.forEach( (observation) => observation.resource.code.coding.filter(item => item.code === loinc_code)) // .filter(item => item.valueQuantity.code  !== 'undefined' ))
