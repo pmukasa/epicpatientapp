@@ -563,7 +563,7 @@ async function doTesting(_hospitalDetails) {
 
 function setResult(loinc_code, observation)
 {
-  if ( observation.resource.code.coding.filter(item => item.code === loinc_code).length === 1 & typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
+  if ( observation.resource.code.coding.filter(item => item.code === loinc_code).length === 1 && typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
 
   vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code}) ;
 
