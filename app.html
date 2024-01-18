@@ -568,12 +568,12 @@ function setResult(loinc_code, observation, item_code = null )
   vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code}) ;
 
 }
-else if ( item_code === '8480-6' && observation.resource.component.code.coding.filter(item => item.code === '8480-6').length === 1 && typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
+else if ( item_code === '8480-6' && observation.resource.component?.code?.coding.filter(item => item.code === '8480-6').length === 1 && typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
 
   vital_signs_data[loinc_code].component.systolic_bp_8480_6.results.push( { 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code } )
 
 }
-else if ( item_code ===  '8462-4' && observation.resource.component.code.coding.filter(item => item.code === '8462-4').length === 1 && typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
+else if ( item_code ===  '8462-4' && observation.resource.component?.code?.coding.filter(item => item.code === '8462-4').length === 1 && typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
 
   vital_signs_data[loinc_code].component.diastolic_bp_8462_4.results.push( { 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code })
 
