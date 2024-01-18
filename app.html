@@ -558,22 +558,22 @@ async function doTesting(_hospitalDetails) {
 
         console.log(vital_signs_data);
 
+
 }
 
 function setResult(loinc_code, observation)
 {
-  if ( observation.resource.code.coding.filter(item => item.code === loinc_code).length === 1 & typeof observation.resource.valueQuantity.code  !== 'undefined' ){
+  if ( observation.resource.code.coding.filter(item => item.code === loinc_code).length === 1 & typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
 
   vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code}) ;
 
 }
 
 }
+
 /**
 function setResult(loinc_code, _observation, item_code)
 {
-
-  
 
   if ( _observation.resource.component.code.coding.filter(item => item.code === '8480-6').length === 1 & observation.resource.valueQuantity.code  !== 'undefined' ){
 
