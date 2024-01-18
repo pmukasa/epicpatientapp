@@ -561,13 +561,21 @@ async function doTesting(_hospitalDetails) {
 
 }
 
-function setResult(loinc_code, observation)
+function setResult(loinc_code, observation, item_code = null )
 {
-  if ( observation.resource.code.coding.filter(item => item.code === loinc_code).length === 1 && typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
+  if ( item_code === null && observation.resource.code.coding.filter(item => item.code === loinc_code).length === 1 && typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
 
   vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code}) ;
 
 }
+else if ( item_code === '8480-6' && observation.resource.component.code.coding.filter(item => item.code === '8480-6').length === 1 && typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
+
+  vital_signs_data[loinc_code].component.systolic_bp_8480_6.results.push( { 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code } )
+
+}
+else if ( item_code ===  '8462-4' && observation.resource.component.code.coding.filter(item => item.code === '8462-4').length === 1 && typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
+
+  vital_signs_data[loinc_code].component.diastolic_bp_8462_4.results.push( { 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code })
 
 }
 
@@ -589,15 +597,16 @@ vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQ
 function parsingFunction(loinc_code , response){
 
 
+  console.log(loinc_code);
 
 
 if (loinc_code !== '85354-9'){
 
-   console.log(response);
+   // console.log(response);
 
-   console.log(response.entry);
+   // console.log(response.entry);
 
-  console.log(loinc_code);
+ //  console.log(loinc_code);
 
   // console.log(vital_signs_data);
 
@@ -627,6 +636,10 @@ if (loinc_code !== '85354-9'){
  }
  else // specifically for blood pressure that has two readings
  {
+
+  response.entry.forEach( (observation) => setResult(loinc_code, observation, '8480-6' ))
+
+  response.entry.forEach( (observation) => setResult(loinc_code, observation, '8462-4' ))
 
    // matched_result = Observation.code.coding.filter(item => item.code === loinc_code)
 
