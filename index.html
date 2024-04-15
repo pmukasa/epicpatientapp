@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
-  <head> </head>
+  <head> 
+    <!-- Include additional scopes -->
+    <meta name="google-signin-scope" content="https://www.googleapis.com/auth/drive.activity">
+  </head>
 
   <body>
     <h1 align="center" class="container">EPIC Patient Facing Application</h1>
@@ -22,5 +25,13 @@
         >Would you like to login all EHR systems? Login here.</a
       >
     </h2>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <div id="g_id_onload"
+         data-client_id="477284413775-mcpsidbq6ncr5d46c1pa1urfh4b1ri2i.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
   </body>
+
+
 </html>
