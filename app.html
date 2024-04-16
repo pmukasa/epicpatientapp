@@ -563,15 +563,14 @@ console.log("no");
         // Append Google Auth Button
         var div = document.createElement("div");
         div.id = "fhir-data";
-        div.innerHTML = `<p>Data From FHIR: </br></br> ${JSON.stringify(
+        div.innerHTML = `<div style="padding: 0 6rem;"><p style="line-height: 2.3;"><strong>EHR Data From FHIR: </strong></br></br> ${JSON.stringify(
           vital_signs_data
         )}</p>
         <br><br> 
         <button id="authorize_button" onclick="oauthSignIn()">
           Authorize Drive Access
         </button>
-        <pre id="content" style="white-space: pre-wrap"></pre>`;
-
+        <pre id="content" style="white-space: pre-wrap"></pre></div>`;
         document.body.appendChild(div);
         writeToPDF(vital_signs_data);
       }
