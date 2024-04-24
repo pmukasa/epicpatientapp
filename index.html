@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
-  <head> </head>
+  <head> 
+    <!-- Include additional scopes -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+   <link rel="manifest" href="./healthapp.json" /> 
+      <!-- <meta name="google-signin-scope" content="https://www.googleapis.com/auth/drive.activity"> -->
+    <link rel="icon" href="./icons/circle.svg" />
+   <!-- <script src="https://accounts.google.com/gsi/client" async></script>  -->   
+  </head>
 
   <body>
     <h1 align="center" class="container">EPIC Patient Facing Application</h1>
@@ -22,5 +30,33 @@
         >Would you like to login all EHR systems? Login here.</a
       >
     </h2>
+
+    <!--  <script src="https://accounts.google.com/gsi/client" async defer></script> 
+    <div id="g_id_onload"
+         data-client_id="477284413775-mcpsidbq6ncr5d46c1pa1urfh4b1ri2i.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>  -->
+
+ <!--  <div id="g_id_onload"
+     data-client_id="36053651090-c40cm6qlbmi71qo6lrfehqc8sbgma5sl.apps.googleusercontent.com"
+     data-context="signin"
+     data-callback="handleCredentialResponse"
+     data-close_on_tap_outside="false"
+     data-itp_support="true">
+</div> --> 
+
+
+<!-- Register the app's service worker. -->
+
+
+<!-- <script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js");
+  }
+</script> -->
+
   </body>
+
+
 </html>

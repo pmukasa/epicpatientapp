@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="manifest" href="healthapp.json" />
+    <link rel="icon" href="./icons/circle.svg" />
     <script src="./dist/fhirclient/build/fhir-client.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
     <style>
       #main {
@@ -16,70 +22,80 @@
 
   <body>
     <div id="main"></div>
+    <!-- <button id="authorize_button" onclick="handleAuthClick()">
+      Authorize Drive Access
+    </button>
+
+    <pre id="content" style="white-space: pre-wrap"></pre> -->
 
     <script>
-
-      
-
       //
 
       var myApp = {}; // will need to delete and use the one in the function later on
 
-      function processRecord(_hospitalDetails){
-
+      function processRecord(_hospitalDetails) {
         // var myApp = {};
 
-        myApp.smart = _hospitalDetails.sessionDetails
+        myApp.smart = _hospitalDetails.sessionDetails;
 
         console.log(myApp.smart);
 
-       // console.log(myApp.smart.state.tokenResponse.access_token);
+        // console.log(myApp.smart.state.tokenResponse.access_token);
 
         // console.log(myApp.smart.request("metadata"));
 
         return myApp.smart.state.tokenResponse.access_token;
-
-      };
+      }
 
       all_hospital_info = JSON.parse(localStorage.getItem("hospital_info"));
 
-      const authHeaders = all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(processRecord);
+      const authHeaders = all_hospital_info.hospitals
+        .filter((record) => record.sessionDetails !== "")
+        .map(processRecord);
 
       // console.log("These were the found auth headers");
 
       // console.log(authHeaders.join(" * "));
 
       var codes = [
-          "social-history",
-          "vital-signs",
-          "imaging",
-          "laboratory",
-          "procedure",
-          "survey",
-          "exam",
-          "therapy",
-          "activity",
-        ];
+        "social-history",
+        "vital-signs",
+        "imaging",
+        "laboratory",
+        "procedure",
+        "survey",
+        "exam",
+        "therapy",
+        "activity",
+      ];
+
+      // all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords5);
+
+      // all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords6);
+
+      /****  one of the below two has to do with the capability statements
+
+      all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords3);
+      ****/
+      all_hospital_info.hospitals
+        .filter((record) => record.sessionDetails !== "")
+        .map(pullRecords4);
+
+      // all_hospital_info.hospitals.filter((record) => record.sessionDetails !== "").map(explicitFetch)
 
 
-     
-        // all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords5);
+      all_hospital_info.hospitals.filter((record) => record.sessionDetails !== "").map(doRequestsTemp)
+      
 
-        // all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords6);
+      /**
+      all_hospital_info.hospitals
+        .filter((record) => record.sessionDetails !== "")
+        .map(doTesting);
 
+**/
 
-        /****  one of the below two has to do with the capability statements
-
-        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords3);
-        ****/
-        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(pullRecords4);
-        
-
-        all_hospital_info.hospitals.filter(record => record.sessionDetails !== "").map(doTesting);
-
-        //codes.map(code => pullRecords2(code));
-        // pullRecords2(codes);
-
+      //codes.map(code => pullRecords2(code));
+      // pullRecords2(codes);
 
       // Algorithm,
 
@@ -89,47 +105,44 @@
 
       // need to filter those which have the state variable defined and perform a map on them
 
-      
-
       // myApp.smart = client;
 
       // console.log(myApp.smart.getAuthorizationHeader()); // passed
 
       // console.log(myApp.smart.request("metadata"));
-/**
-      FHIR.oauth2.ready().then(function (client) {
-        console.log(client); // added by me
-        myApp.smart = client;
+      /**
+    FHIR.oauth2.ready().then(function (client) {
+      console.log(client); // added by me
+      myApp.smart = client;
 
-        console.log(myApp.smart.getAuthorizationHeader()) // passed
+      console.log(myApp.smart.getAuthorizationHeader()) // passed
 
-        console.log(myApp.smart.request("metadata"));
+      console.log(myApp.smart.request("metadata"));
 
-        /*
-        Details of the various Observation categories can be found here:
-        https://build.fhir.org/valueset-observation-category.html#expansion
-        
-        var codes = [
-          "social-history",
-          "vital-signs",
-          "imaging",
-          "laboratory",
-          "procedure",
-          "survey",
-          "exam",
-          "therapy",
-          "activity",
-        ];
+      /*
+      Details of the various Observation categories can be found here:
+      https://build.fhir.org/valueset-observation-category.html#expansion
+      
+      var codes = [
+        "social-history",
+        "vital-signs",
+        "imaging",
+        "laboratory",
+        "procedure",
+        "survey",
+        "exam",
+        "therapy",
+        "activity",
+      ];
 
-        //codes.map(code => pullRecords2(code));
+      //codes.map(code => pullRecords2(code));
 
-        pullRecords2(codes);
+      pullRecords2(codes);
 
-        // pullRecords();
-      });
+      // pullRecords();
+    });
 
-      **/
-
+    **/
 
       async function testPull() {
         myApp.smart.patient
@@ -150,66 +163,62 @@
           });
       }
 
-      async function pullRecords6(_hospitalDetails){
+      async function pullRecords6(_hospitalDetails) {
+        myApp.smart = _hospitalDetails.sessionDetails;
 
-myApp.smart = _hospitalDetails.sessionDetails
+        var obs = await fetch(
+          myApp.smart.state.serverUrl + "/StructureDefinition",
+          {
+            headers: {
+              Accept: "application/json+fhir",
+              Authorization:
+                "Bearer " + myApp.smart.state.tokenResponse.access_token,
+            },
+          }
+        ).then(function (data) {
+          console.log(`PullRecords : ${data}`);
+          return data;
+        });
 
-var obs = await fetch(
-  myApp.smart.state.serverUrl +
-  "/StructureDefinition",
-  {
-    headers: {
-      Accept: "application/json+fhir",
-      Authorization:
-        "Bearer " + myApp.smart.state.tokenResponse.access_token,
-    },
-  }
-).then(function (data) {
-  return data;
-});
+        // creating a Javascript object from JSON string , can also use JSON.parse()
 
-// creating a Javascript object from JSON string , can also use JSON.parse()
+        var responsejson = await obs.json();
 
-var responsejson = await obs.json();
+        console.log(responsejson);
+      }
 
-console.log(responsejson);
+      async function pullRecords5(_hospitalDetails) {
+        myApp.smart = _hospitalDetails.sessionDetails;
 
-}
+        var obs = await fetch(
+          myApp.smart.state.serverUrl + "/ImplementationGuide",
+          {
+            headers: {
+              Accept: "application/json+fhir",
+              Authorization:
+                "Bearer " + myApp.smart.state.tokenResponse.access_token,
+            },
+          }
+        ).then(function (data) {
+          console.log(`PullRecords 3 : ${data}`);
+          return data;
+        });
 
-      async function pullRecords5(_hospitalDetails){
+        // creating a Javascript object from JSON string , can also use JSON.parse()
 
-myApp.smart = _hospitalDetails.sessionDetails
+        var responsejson = await obs.json();
 
-var obs = await fetch(
-  myApp.smart.state.serverUrl +
-  "/ImplementationGuide",
-  {
-    headers: {
-      Accept: "application/json+fhir",
-      Authorization:
-        "Bearer " + myApp.smart.state.tokenResponse.access_token,
-    },
-  }
-).then(function (data) {
-  return data;
-});
-
-// creating a Javascript object from JSON string , can also use JSON.parse()
-
-var responsejson = await obs.json();
-
-console.log(responsejson);
-
-}
+        console.log(responsejson);
+      }
 
       async function pullRecords3(_hospitalDetails) {
         // var loincs = [encodeURIComponent("http://loinc.org|4548-4")]; //4548-4 = HgA1C  //4544-3 = hematocrit
         // console.log(loincs);
 
-        observation_codes = ["social-history", "vital-signs" ];
+        observation_codes = ["social-history", "vital-signs"];
 
-        myApp.smart = _hospitalDetails.sessionDetails
-        // fOR 
+        myApp.smart = _hospitalDetails.sessionDetails;
+        // fOR
         // patient is must for the resources
         // the category or code is a must for an observation resource, there are 7 possible options
 
@@ -221,14 +230,14 @@ console.log(responsejson);
             "/Observation?patient=" +
             myApp.smart.patient.id +
             "&category=vital-signs" +
-           // "&category=" +
-           // observation_codes.join(",") +
-          //  "&code-value-quantity:missing=" false +
-         // "&code=8867-4"+  // works
-          //  "&code-value-quantity=8867-4$eq79"+
-          "&component-value-quantity=79" +
-           // "&value-quantity=79" +
-          // "&combo-value-quantity=59"+
+            // "&category=" +
+            // observation_codes.join(",") +
+            //  "&code-value-quantity:missing=" false +
+            // "&code=8867-4"+  // works
+            //  "&code-value-quantity=8867-4$eq79"+
+            "&component-value-quantity=79" +
+            // "&value-quantity=79" +
+            // "&combo-value-quantity=59"+
             //"&result.code-value-quantity=8867-4"+
 
             "&_summary=true",
@@ -249,80 +258,79 @@ console.log(responsejson);
         var responsejson = await obs.json();
 
         console.log(responsejson);
-/**
-        for (let i in responsejson.entry) {
+        console.log(`PullRecords 3 : ${responsejson}`);
+        /**
+      for (let i in responsejson.entry) {
+        if (
+          responsejson.entry[i].resource.category[0].coding[0]["code"] ===
+          "social-history"
+        ) {
+          // console.log(responsejson.entry[i]);
+
           if (
-            responsejson.entry[i].resource.category[0].coding[0]["code"] ===
-            "social-history"
+            responsejson.entry[i].resource?.code?.text.match(
+              /SHX|MHX|FHX/
+            ) !== null
           ) {
-            // console.log(responsejson.entry[i]);
+            const datafields = {
+              date: responsejson.entry[i].resource?.effectiveDateTime || "",
+              observation:
+                responsejson.entry[i].resource?.code?.coding[0]?.display ||
+                "",
+              response:
+                responsejson.entry[i].resource?.valueCodeableConcept?.text ||
+                "",
 
-            if (
-              responsejson.entry[i].resource?.code?.text.match(
-                /SHX|MHX|FHX/
-              ) !== null
-            ) {
-              const datafields = {
-                date: responsejson.entry[i].resource?.effectiveDateTime || "",
-                observation:
-                  responsejson.entry[i].resource?.code?.coding[0]?.display ||
-                  "",
-                response:
-                  responsejson.entry[i].resource?.valueCodeableConcept?.text ||
-                  "",
-
-                // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '',
-                // observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '',
-                // state: ( typeof response.entry[i].resource.valueCodeableConcept.text !== 'undefined' ) ? response.entry[i].resource.valueCodeableConcept.text : '',
-              };
-
-              //console.log(datafields);
-            }
-          }
-
-
-          if ( responsejson.entry[i].resource.category[0].coding[0]["code"] ===
-          "vital-signs"){
-            console.log(responsejson.entry[i]);
-
-            if (responsejson.entry[i].resource.component === undefined ){
-              console.log("Yes");
-
-              const datafields = {
-                date: responsejson.entry[i].resource?.effectiveDateTime || "",
-                observation:
-                  responsejson.entry[i].resource?.code?.coding[0]?.display ||
-                  "",
-                measurement:
-                  responsejson.entry[i].resource?.valueQuantity?.value.concat(" ", responsejson.entry[i].resource?.valueQuantity?.unit || "unit")  ||
-                  "",
-
-                // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '',
-                // observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '',
-                // state: ( typeof response.entry[i].resource.valueCodeableConcept.text !== 'undefined' ) ? response.entry[i].resource.valueCodeableConcept.text : '',
-              };
-
-              console.log(datafields);
-
-            }else{
-console.log("no");
-
+              // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '',
+              // observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '',
+              // state: ( typeof response.entry[i].resource.valueCodeableConcept.text !== 'undefined' ) ? response.entry[i].resource.valueCodeableConcept.text : '',
             };
+
+            //console.log(datafields);
+          }
+        }
+
+
+        if ( responsejson.entry[i].resource.category[0].coding[0]["code"] ===
+        "vital-signs"){
+          console.log(responsejson.entry[i]);
+
+          if (responsejson.entry[i].resource.component === undefined ){
+            console.log("Yes");
+
+            const datafields = {
+              date: responsejson.entry[i].resource?.effectiveDateTime || "",
+              observation:
+                responsejson.entry[i].resource?.code?.coding[0]?.display ||
+                "",
+              measurement:
+                responsejson.entry[i].resource?.valueQuantity?.value.concat(" ", responsejson.entry[i].resource?.valueQuantity?.unit || "unit")  ||
+                "",
+
+              // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '',
+              // observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '',
+              // state: ( typeof response.entry[i].resource.valueCodeableConcept.text !== 'undefined' ) ? response.entry[i].resource.valueCodeableConcept.text : '',
+            };
+
+            console.log(datafields);
+
+          }else{
+console.log("no");
 
           };
 
+        };
 
 
-        }
-      
-      **/
+
+      }
+    
+    **/
       }
 
-
-      async function pullRecords4(_hospitalDetails){
-
-        myApp.smart = _hospitalDetails.sessionDetails
-        // fOR 
+      async function pullRecords4(_hospitalDetails) {
+        myApp.smart = _hospitalDetails.sessionDetails;
+        // fOR
         // patient is must for the resources
         // the category or code is a must for an observation resource, there are 7 possible options
 
@@ -330,10 +338,9 @@ console.log("no");
         // others return the default output TOOK A SCREENSHOT OF THIS
 
         var obs = await fetch(
-          myApp.smart.state.serverUrl +
-          "/metadata",
-            // "/CapabilityStatement?patient=" +
-            // myApp.smart.patient.id ,
+          myApp.smart.state.serverUrl + "/metadata",
+          // "/CapabilityStatement?patient=" +
+          // myApp.smart.patient.id ,
           {
             headers: {
               Accept: "application/json+fhir",
@@ -342,16 +349,17 @@ console.log("no");
                 "Bearer " + myApp.smart.state.tokenResponse.access_token,
             },
           }
-        ).then(function (data) {
+        ).then(async function (data) {
+          console.log(`PullRecords 4 : ${JSON.stringify(data)}`);
           return data;
         });
 
         // creating a Javascript object from JSON string , can also use JSON.parse()
 
-        var responsejson = await obs.json();
+        // exportPDF()
+        // writeToPDF(responsejson, "ehr")
 
-        console.log(responsejson);
-
+        // console.log(responsejson);
       }
 
       async function pullRecords2(observation_codes) {
@@ -374,6 +382,7 @@ console.log("no");
             },
           }
         ).then(function (data) {
+          console.log(`PullRecords 2 : ${JSON.stringify(data)}`);
           return data;
         });
 
@@ -382,6 +391,7 @@ console.log("no");
         var responsejson = await obs.json();
 
         console.log(responsejson);
+        console.log(`PullRecords 4 : ${responsejson}`);
 
         for (let i in responsejson.entry) {
           if (
@@ -413,12 +423,13 @@ console.log("no");
             }
           }
 
-
-          if ( responsejson.entry[i].resource.category[0].coding[0]["code"] ===
-          "vital-signs"){
+          if (
+            responsejson.entry[i].resource.category[0].coding[0]["code"] ===
+            "vital-signs"
+          ) {
             console.log(responsejson.entry[i]);
 
-            if (responsejson.entry[i].resource.component === undefined ){
+            if (responsejson.entry[i].resource.component === undefined) {
               console.log("Yes");
 
               const datafields = {
@@ -427,8 +438,11 @@ console.log("no");
                   responsejson.entry[i].resource?.code?.coding[0]?.display ||
                   "",
                 measurement:
-                  responsejson.entry[i].resource?.valueQuantity?.value.concat(" ", responsejson.entry[i].resource?.valueQuantity?.unit || "unit")  ||
-                  "",
+                  responsejson.entry[i].resource?.valueQuantity?.value.concat(
+                    " ",
+                    responsejson.entry[i].resource?.valueQuantity?.unit ||
+                      "unit"
+                  ) || "",
 
                 // date: ( typeof response.entry[i].resource.code.effectiveDateTime !== 'undefined' ) ? response.entry[i].resource.code.effectiveDateTime : '',
                 // observation: ( typeof response.entry[i].resource.code.coding.text !== 'undefined' ) ? response.entry[i].resource.code.coding.text : '',
@@ -436,16 +450,11 @@ console.log("no");
               };
 
               console.log(datafields);
-
-            }else{
-console.log("no");
-
-            };
-
-          };
-
-
-
+              console.log(`PullRecords Act : ${datafields}`);
+            } else {
+              console.log("no");
+            }
+          }
         }
       }
 
@@ -496,51 +505,191 @@ console.log("no");
         $("#main").html(toInsert);
       }
 
+      async function doRequestsTemp(_hospitalDetails) {
 
+        myApp.smart = _hospitalDetails.sessionDetails;
 
- // Algorithm
-
- // get bundle of observations, filter and apply to the result an operation, perhaps creating a list of items
-
-// Potential display items
-
-// ['HeartRate', 'BodyHeight', 'BodyWeight', 'VitalsPanel', 'RespRate', 'BodyTemp', 'HeadCircum', 'OxygenSat', 'BMI', 'BP', 'HDLCholesterol', 'Cholesterol' ]
-
-// core profiles for http://hl7.org/fhir/R4/observation.html#core
-// http://hl7.org/fhir/R4/observation-vitalsigns.html
-
-
-// Implement the diagonistic module could be an option, contains things such as Observation
-// http://hl7.org/fhir/R4/diagnostics-module.html
-
-vital_signs_data = 
-                {
-                '8302-2' : { display: 'Body Height', results: [] }, // https://hl7.org/fhir/R4/bodyheight.html
-                '8867-4' : { display: 'Heart Rate', results: [] }, // https://hl7.org/fhir/R4/heartrate.html#10.1.25.2         
-                '29463-7' : { display: 'Body Weight', results: [] }, // https://hl7.org/fhir/R4/bodyweight.html
-                '9279-1' : { display: 'Respiratory Rate', results: [] }, // https://hl7.org/fhir/R4/resprate.html
-                '8310-5' : { display: 'Body Temperature', results: [] }, // https://hl7.org/fhir/R4/bodytemp.html
-                '9843-4' : { display: 'Head Circumferencee', results: [] }, // https://hl7.org/fhir/R4/headcircum.html
-                '2708-6' : { display: 'Oxygen Saturation', results: [] }, // https://hl7.org/fhir/R4/oxygensat.html
-                '39156-5' : { display: 'Body Mass Index', results: [] }, // https://hl7.org/fhir/R4/bmi.html
-                '85354-9' : { component: { systolic_bp_8480_6 : { display: 'Systolic Blood Pressure', results: [] }, diastolic_bp_8462_4 : { display: 'Diastolic Blood Pressure', results: [] } } }, // https://hl7.org/fhir/R4/bp.html
-                '2085-9' : { display: 'HDL Cholesterol', results: [] }, // https://hl7.org/fhir/R4/hdlcholesterol.html
-                }
-              
-
-async function doTesting(_hospitalDetails) {
-
-  // not all servers contain the same search parameters, code would be useful but we may not be able to exploit it in all cases
-
-  myApp.smart = _hospitalDetails.sessionDetails
-
-  var obs = await fetch(
+        var loincs = [encodeURIComponent("http://loinc.org|4548-4")]; //4548-4 = HgA1C  //4544-3 = hematocrit
+        var obs = await fetch(
           myApp.smart.state.serverUrl +
             "/Observation?patient=" +
-            myApp.smart.patient.id // +
-           // "&limit=50&code=" +
+            myApp.smart.patient.id +
+            "&limit=50&code=" +
+            loincs.join(","),
+          {
+            headers: {
+              Accept: "application/json+fhir",
+              Authorization:
+                "Bearer " + myApp.smart.state.tokenResponse.access_token,
+            },
+          }
+        ).then(function (data) {
+          return data;
+        });
+
+        var response = await obs.json();
+
+        // console.log(response);
+
+        var toInsert = "";
+
+        toInsert += 
+        `<div style="padding: 0 6rem;"><p style="line-height: 2.3;"><strong>EHR Data From FHIR: </strong></br></br> </p>`
+
+        //if there is no entry, then there was no test found
+        if (!response.entry[0]) {
+          toInsert +=
+            "We could not find you were tested for HgA1C at this provider.";
+        } else {
+          toInsert +=
+            "Your HgA1C was tested on " +
+            response.entry[0].resource.effectiveDateTime +
+            "<br/><br/>";
+
+          toInsert +=
+            "Your HgA1C was " +
+            response.entry[0].resource.valueQuantity.value +
+            "<br/><br/>";
+
+          toInsert +=
+            "<a href='https://en.wikipedia.org/wiki/Glycated_hemoglobin'>According to wikipedia</a>, A1c is measured primarily to determine the three-month average blood sugar level and can be used as a diagnostic test for diabetes mellitus.  <5.7%	Normal, 5.7-6.4%	Prediabetes, >6.5%	Diabetes.";
+        }
+
+        // Append Google Auth Button
+
+        toInsert += 
+        `<br><br>
+        
+        <label for="email">Enter the email to share below record(s) with:</label>
+
+        <input type="email" id="email" pattern=".+@.+\.com" size="50" multiple required placeholder="paul@example.com"/>
+   
+        <button id="authorize_button" onclick="oauthSignIn()">
+          Authorize Drive Access
+        </button>`
+
+
+        $("#main").html(toInsert);
+ 
+        
+        writeToPDF(toInsert);
+
+      }
+
+      // Algorithm
+
+      // get bundle of observations, filter and apply to the result an operation, perhaps creating a list of items
+
+      // Potential display items
+
+      // ['HeartRate', 'BodyHeight', 'BodyWeight', 'VitalsPanel', 'RespRate', 'BodyTemp', 'HeadCircum', 'OxygenSat', 'BMI', 'BP', 'HDLCholesterol', 'Cholesterol' ]
+
+
+
+      /**
+      vital_signs_data = {
+        "8302-2": { display: "Body Height", results: [] }, // https://hl7.org/fhir/R4/bodyheight.html
+        "8867-4": { display: "Heart Rate", results: [] }, // https://hl7.org/fhir/R4/heartrate.html#10.1.25.2
+        "29463-7": { display: "Body Weight", results: [] }, // https://hl7.org/fhir/R4/bodyweight.html
+        "9279-1": { display: "Respiratory Rate", results: [] }, // https://hl7.org/fhir/R4/resprate.html
+        "8310-5": { display: "Body Temperature", results: [] }, // https://hl7.org/fhir/R4/bodytemp.html
+        "9843-4": { display: "Head Circumferencee", results: [] }, // https://hl7.org/fhir/R4/headcircum.html
+        "2708-6": { display: "Oxygen Saturation", results: [] }, // https://hl7.org/fhir/R4/oxygensat.html
+        "39156-5": { display: "Body Mass Index", results: [] }, // https://hl7.org/fhir/R4/bmi.html
+        "85354-9": {
+          component: {
+            systolic_bp_8480_6: {
+              display: "Systolic Blood Pressure",
+              results: [],
+            },
+            diastolic_bp_8462_4: {
+              display: "Diastolic Blood Pressure",
+              results: [],
+            },
+          },
+        }, // https://hl7.org/fhir/R4/bp.html
+        "2085-9": { display: "HDL Cholesterol", results: [] }, // https://hl7.org/fhir/R4/hdlcholesterol.html
+      }; **/
+
+      async function explicitFetch(_hospitalDetails){
+
+        vital_signs_data = {
+        "8302-2": { display: "Body Height", results: [] }, // https://hl7.org/fhir/R4/bodyheight.html
+        "8867-4": { display: "Heart Rate", results: [] }, // https://hl7.org/fhir/R4/heartrate.html#10.1.25.2
+        "29463-7": { display: "Body Weight", results: [] }, // https://hl7.org/fhir/R4/bodyweight.html
+        "9279-1": { display: "Respiratory Rate", results: [] }, // https://hl7.org/fhir/R4/resprate.html
+        "8310-5": { display: "Body Temperature", results: [] }, // https://hl7.org/fhir/R4/bodytemp.html
+        "9843-4": { display: "Head Circumferencee", results: [] }, // https://hl7.org/fhir/R4/headcircum.html
+        "2708-6": { display: "Oxygen Saturation", results: [] }, // https://hl7.org/fhir/R4/oxygensat.html
+        "39156-5": { display: "Body Mass Index", results: [] }, // https://hl7.org/fhir/R4/bmi.html
+        "85354-9": {
+          component: {
+            systolic_bp_8480_6: {
+              display: "Systolic Blood Pressure",
+              results: [],
+            },
+            diastolic_bp_8462_4: {
+              display: "Diastolic Blood Pressure",
+              results: [],
+            },
+          },
+        }, // https://hl7.org/fhir/R4/bp.html
+        "2085-9": { display: "HDL Cholesterol", results: [] }, // https://hl7.org/fhir/R4/hdlcholesterol.html
+      };
+         
+        myApp.smart = _hospitalDetails.sessionDetails;
+
+        Object.keys(vital_signs_data).forEach( (_loinc_code) => explicitDataParse(_loinc_code, myApp.smart) )
+
+        // console.log(vital_signs_data)
+        
+      }
+
+      async function explicitDataParse(_loinc_code, sessionCredentials){
+      
+        var code_to_use = [encodeURIComponent("http://loinc.org|" + _loinc_code)]
+        var obs = await fetch(
+          myApp.smart.state.serverUrl +
+            "/Observation?patient=" +
+            myApp.smart.patient.id +
+            "&code=" + code_to_use +
+            "&category=" + "vital-signs", // +
+          // "&limit=50&code=" +
           //  loincs.join(",")
-          ,
+          {
+            headers: {
+              Accept: "application/json+fhir",
+              Authorization:
+                "Bearer " + myApp.smart.state.tokenResponse.access_token,
+            },
+          }
+        ).then(function (data) {
+          return data;
+        });
+
+        var _response = await obs.json();
+
+        console.log(_loinc_code)
+
+        console.log(code_to_use)
+
+        console.log(_response);
+
+        parsingFunction(_loinc_code, _response)
+
+      }
+
+      async function doTesting(_hospitalDetails) {
+        // not all servers contain the same search parameters, code would be useful but we may not be able to exploit it in all cases
+
+        myApp.smart = _hospitalDetails.sessionDetails;
+
+        var obs = await fetch(
+          myApp.smart.state.serverUrl +
+            "/Observation?patient=" +
+            myApp.smart.patient.id, // +
+          // "&limit=50&code=" +
+          //  loincs.join(",")
           {
             headers: {
               Accept: "application/json+fhir",
@@ -560,317 +709,303 @@ async function doTesting(_hospitalDetails) {
 
         console.log(_response);
 
-        Object.keys(vital_signs_data).forEach( (_loinc_code) => parsingFunction(_loinc_code , _response))
+        Object.keys(vital_signs_data).forEach((_loinc_code) =>
+          parsingFunction(_loinc_code, _response)
+        );
 
         // loinc_code_index = vital_signs_data.indexOf(loinc_code)
 
-        console.log(vital_signs_data);
+        // pattern=".+@.+\.com"
 
+        // Append Google Auth Button
+        var div = document.createElement("div");
+        div.id = "fhir-data";
+        div.innerHTML = `<div style="padding: 0 6rem;"><p style="line-height: 2.3;"><strong>EHR Data From FHIR: </strong></br></br> ${JSON.stringify(
+          vital_signs_data
+        )}</p>
+        <br><br>
+        <label for="email">Enter the email to share records with:</label>
 
-}
+        <input type="email" id="email"  size="50" multiple required placeholder="paul@example.com"/>
 
-function setResult(loinc_code, observation, item_code = null )
-{
-  if ( item_code === null && observation.resource.code.coding.filter(item => item.code === loinc_code).length === 1 && typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
+      
+   
+        <button id="authorize_button" onclick="oauthSignIn()">
+          Authorize Drive Access
+        </button>
+        <pre id="content" style="white-space: pre-wrap"></pre></div>`;
+        document.body.appendChild(div);
+        writeToPDF(vital_signs_data);
+      }
 
-  vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code}) ;
+      function setResult(loinc_code, observation, item_code = null) {
+        if (
+          item_code === null &&
+          observation.resource.code.coding.filter(
+            (item) => item.code === loinc_code
+          ).length === 1 &&
+          typeof observation.resource.valueQuantity.code !== "undefined"
+        ) {
+          vital_signs_data[loinc_code].results.push({
+            value: observation.resource.valueQuantity.value,
+            code: observation.resource.valueQuantity.code,
+          });
+        } else if (
+          item_code === "8480-6" &&
+          observation.resource.component?.code?.coding.filter(
+            (item) => item.code === "8480-6"
+          ).length === 1 &&
+          typeof observation.resource.valueQuantity.code !== "undefined"
+        ) {
+          vital_signs_data[
+            loinc_code
+          ].component.systolic_bp_8480_6.results.push({
+            value: observation.resource.valueQuantity.value,
+            code: observation.resource.valueQuantity.code,
+          });
+        } else if (
+          item_code === "8462-4" &&
+          observation.resource.component?.code?.coding.filter(
+            (item) => item.code === "8462-4"
+          ).length === 1 &&
+          typeof observation.resource.valueQuantity.code !== "undefined"
+        ) {
+          vital_signs_data[
+            loinc_code
+          ].component.diastolic_bp_8462_4.results.push({
+            value: obs_resource.valueQuantity.value,
+            code: obs_resource.valueQuantity.code,
+          });
+        }
 
-}
-else if ( item_code === '8480-6' && observation.resource.component?.code?.coding.filter(item => item.code === '8480-6').length === 1 && typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
+        // var responsejson = await obs.json();
+      }
 
-  vital_signs_data[loinc_code].component.systolic_bp_8480_6.results.push( { 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code } )
-
-}
-else if ( item_code ===  '8462-4' && observation.resource.component?.code?.coding.filter(item => item.code === '8462-4').length === 1 && typeof(observation.resource.valueQuantity.code)  !== 'undefined' ){
-
-  vital_signs_data[loinc_code].component.diastolic_bp_8462_4.results.push( { 'value': obs_resource.valueQuantity.value, 'code': obs_resource.valueQuantity.code })
-
-}
-}
-
-/**
+      /**
 function setResult(loinc_code, _observation, item_code)
 {
 
-  if ( _observation.resource.component.code.coding.filter(item => item.code === '8480-6').length === 1 & observation.resource.valueQuantity.code  !== 'undefined' ){
+if ( _observation.resource.component.code.coding.filter(item => item.code === '8480-6').length === 1 & observation.resource.valueQuantity.code  !== 'undefined' ){
 
 vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQuantity.value, 'code': observation.resource.valueQuantity.code}) ;
 
 }
 
-   
+ 
 }
 **/
 
-
-function parsingFunction(loinc_code , response){
-
-
-  console.log(loinc_code);
-
-
-if (loinc_code !== '85354-9'){
-
-  response.entry.forEach( (observation) => setResult(loinc_code, observation) // console.log(observation.resource.code.coding.filter(item => item.code === loinc_code).length)
-  
-  ) 
-
-  }
- else // specifically for blood pressure that has two readings
- {
-
-  response.entry.forEach( (observation) => setResult(loinc_code, observation, '8480-6' ))
-
-  response.entry.forEach( (observation) => setResult(loinc_code, observation, '8462-4' ))
-
- }
-
-}
-
-
-// Bundle level or Resource level
-// if at bundle , loop such that we at resource level 
-// Given a resource what next
-   // if the resource is observation type, create a list of resources we would like to check for 
-   // Handling cardinality, using the must included fields for certain profiles
-   // look though each loinc code provided for matches, special case applies for BP
-
-  </script>
-
-
-#### Need to Explore how to implement IPA and IPS 
-# http://hl7.org/fhir/uv/ipa/2022Jan/
-
-
-# Summary
-## create a template
-## Extract template fields from JSON objects key value pair 
-## if all fields are not successfully extracted return null
-
-# How to implement
-## consider flattening  or object deconstruction maybe?
-## may be use native methods such map filter to get the keyvalue pairs, create sets using the values and validate for any intersections
-## of interest would be the code and value, could be common from different institutions but not at the same institution can use date to distinguish (could not visit two institutions at the same time)
-
-class Observation(){
-  constructor(category, recordDate, value, code){
-    this.category = category; // array of dicts of different categories associated with the resource, cardinality
-    this.observed = code.text // what was exactly observed, did not use the code.coding (cardinality), took text... may need text similarily later on 
-    this.recordDate = recordDate;
-    this.value = values; // dict detailing valueQuantity or valueText 
-  }
-
-  # get the elements for the objects, arrays in arrays
-  # parse them
-  
-  setCategories(){
-  this.category.ForEach( (data) => data = data.coding.code) or data.coding[0].code
-  }
-
-  applyRule(ruleTemplate){
-
-    if this.category.length > 1
-
-    # what type is the template 
-    # focus on the values and code
-    # 
-
-    # condition met 
-    return certain_object
-
-    # condition not met 
-    
-
-  }
-
-  # Rule 1
-
-  # Rule 2
-
-  # Rule 3
-
-  # Rule 4
-
-  # Rule 5
-
-  # Rule 6
-}
-
-
-let results = yourArray.filter(item => item.yourProperty === 'yourValue');
-
-
-Algorithm
-
-get bundle of observations, filter and apply to the result an operation, perhaps creating a list of items
-
-Potential display items
-
-// ['HeartRate', 'BodyHeight', 'BodyWeight', 'VitalsPanel', 'RespRate', 'BodyTemp', 'HeadCircum', 'OxygenSat', 'BMI', 'BP', 'HDLCholesterol', 'Cholesterol' ]
-
-
-Output_data = [
-                '8867-4' : { display: 'Heart Rate', results: [] }, // https://hl7.org/fhir/R4/heartrate.html#10.1.25.2
-                '8302-2' : { display: 'Body Height', results: [] }, // https://hl7.org/fhir/R4/bodyheight.html
-                '29463-7' : { display: 'Body Weight', results: [] }, // https://hl7.org/fhir/R4/bodyweight.html
-                '9279-1' : { display: 'Respiratory Rate', results: [] }, // https://hl7.org/fhir/R4/resprate.html
-                '8310-5' : { display: 'Body Temperature', results: [] }, // https://hl7.org/fhir/R4/bodytemp.html
-                '9843-4' : { display: 'Head Circumferencee', results: [] }, // https://hl7.org/fhir/R4/headcircum.html
-                '2708-6' : { display: 'Oxygen Saturation', results: [] }, // https://hl7.org/fhir/R4/oxygensat.html
-                '39156-5' : { display: 'Body Mass Index', results: [] }, // https://hl7.org/fhir/R4/bmi.html
-                '85354-9' : { component: { '8480-6' : { display: 'Systolic Blood Pressure', results: [] }, '8462-4' : { display: 'Diastolic Blood Pressure', results: [] } } }, // https://hl7.org/fhir/R4/bp.html
-                '2085-9' : { display: 'HDL Cholesterol', results: [] }, // https://hl7.org/fhir/R4/hdlcholesterol.html
-              ]
-
-
-# Bundle level or Resource level
-# if at bundle , loop such that we at resource level 
-# Given a resource what next
-   # if the resource is observation type, create a list of resources we would like to check for 
-   # Handling cardinality, using the must included fields for certain profiles
-   # look though each loinc code provided for matches, special case applies for BP
-
-   loinc_code_index = output_data.indexOf(loinc_code)
-
-   if loinc_code is not in  []:
-       
-       matched_result = Observation.code.coding.filter(item => item.code === loinc_code).filter(item => item.valueQuantity.code is not null)
-
-       ## Appending to output_data
-
-       matched_result.ForEach( (obs_resource) => output_data[loinc_code_index].results.push({value: obs_resource.valueQuantity.value, code: obs_resource.valueQuantity.code}) )
-   else:
-       matched_result = Observation.code.coding.filter(item => item.code === loinc_code)
-
-
-
-# Must haves
-
-#### HeartRate ####
-
-# https://hl7.org/fhir/R4/heartrate.html#10.1.25.2
-
-# Observation.code.coding.system='http ://loinc.org'
-# Observation.code.coding.code= '8867-4'
-
-# Observation.valueQuantity.system="http://unitsofmeasure.org"
-# Observation.valueQuantity.code = '/min'
-
-#### BodyHeight ####
-
-# https://hl7.org/fhir/R4/bodyheight.html
-
-# Observation.code.coding.system='http ://loinc.org'
-# Observation.code.coding.code= '8302-2'
-
-# Observation.valueQuantity.value
-# Observation.valueQuantity.code = 'cm', or '[in_i]'
-
-#### BodyWeight ####
-
-# https://hl7.org/fhir/R4/bodyweight.html
-
-# Observation.code.coding.system='http ://loinc.org'
-# Observation.code.coding.code= '29463-7'
-
-# Observation.valueQuantity.value
-# Observation.valueQuantity.code = 'kg', 'g', or '[lb_av]'
-
-#### VitalsPanel ####
-
-# https://hl7.org/fhir/R4/vitalspanel.html
-
-# Observation.code.coding.system='http ://loinc.org'
-# Observation.code.coding.code= '85353-1'
-
-# No value in Observation.value[x]
-
-#### RespRate ####
-
-# https://hl7.org/fhir/R4/resprate.html
-
-# Observation.code.coding.system='http ://loinc.org'
-# Observation.code.coding.code= '9279-1'
-
-# Observation.valueQuantity.value
-# Observation.valueQuantity.code = '/min'
-
-#### BodyTemp ####
-
-# https://hl7.org/fhir/R4/bodytemp.html
-
-# Observation.code.coding.system='http ://loinc.org'
-# Observation.code.coding.code= '8310-5'
-
-# Observation.valueQuantity.value
-# Observation.valueQuantity.code = 'Cel', or '[degF]'
-
-#### HeadCircum ####
-
-# https://hl7.org/fhir/R4/headcircum.html
-
-# Observation.code.coding.system='http ://loinc.org'
-# Observation.code.coding.code= '9843-4'
-
-# Observation.valueQuantity.value
-# Observation.valueQuantity.code = 'cm', or '[in_i]'
-
-#### OxygenSat ####
-
-# https://hl7.org/fhir/R4/oxygensat.html
-
-# Observation.code.coding.system='http ://loinc.org'
-# Observation.code.coding.code= '2708-6'
-
-# Observation.valueQuantity.value
-# Observation.valueQuantity.code = '%'
-
-#### BMI ####
-
-# https://hl7.org/fhir/R4/bmi.html
-
-# Observation.code.coding.system='http ://loinc.org'
-# Observation.code.coding.code= '39156-5'
-
-# Observation.valueQuantity.value
-# Observation.valueQuantity.code = 'kg/m2'
-
-#### BP ####
-
-# https://hl7.org/fhir/R4/bp.html
-
-# Observation.code.coding.system='http ://loinc.org'
-# Observation.code.coding.code= '85354-9'
-
-# Observation.component.code.coding.system='http://loinc.org'
-# Observation.component.code.coding.code= '8480-6'
-
-# Observation.component.code.coding.system='http://loinc.org'
-# Observation.component.code.coding.code= '8462-4'
-
-# Observation.valueQuantity.value
-# Observation.valueQuantity.code = 'mm[Hg]'
-
-#### HDLCholesterol ####
-
-# Observation.code.coding.system='http ://loinc.org'
-# Observation.component.code.coding.code= '2085-9'
-
-# Observation.valueQuantity
-# Observation.referenceRange.low.value     # fixed value such as 1.5
-
-#### Cholesterol ####
-
-# Observation.code.coding.system='http ://loinc.org'
-# Observation.component.code.coding.code= '35200-5'
-
-# Observation.valueQuantity.value
-# Observation.valueQuantity.code = 'mmol/L'
-
-# Observation.referenceRange.high.value     # fixed value such as 4.5
-
-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
-
-
+      function parsingFunction(loinc_code, response) {
+        console.log(loinc_code);
+
+        if (loinc_code !== "85354-9") {
+          response.entry.forEach(
+            (observation) => setResult(loinc_code, observation) // console.log(observation.resource.code.coding.filter(item => item.code === loinc_code).length)
+          );
+        } // specifically for blood pressure that has two readings
+        else {
+          response.entry.forEach((observation) =>
+            setResult(loinc_code, observation, "8480-6")
+          );
+
+          response.entry.forEach((observation) =>
+            setResult(loinc_code, observation, "8462-4")
+          );
+        }
+      }
+
+      // Bundle level or Resource level
+      // if at bundle , loop such that we at resource level
+      // Given a resource what next
+      // if the resource is observation type, create a list of resources we would like to check for
+      // Handling cardinality, using the must included fields for certain profiles
+      // look though each loinc code provided for matches, special case applies for BP
+    </script>
+
+    <script type="text/javascript">
+      function oauthSignIn() {
+        // Google's OAuth 2.0 endpoint for requesting an access token
+        var oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
+
+        // Create <form> element to submit parameters to OAuth 2.0 endpoint.
+        var form = document.createElement("form");
+        form.setAttribute("method", "GET"); // Send as a GET request.
+        form.setAttribute("action", oauth2Endpoint);
+
+        // Parameters to pass to OAuth 2.0 endpoint.
+        var params = {
+          client_id:
+            "36053651090-c40cm6qlbmi71qo6lrfehqc8sbgma5sl.apps.googleusercontent.com",
+            // "477284413775-mcpsidbq6ncr5d46c1pa1urfh4b1ri2i.apps.googleusercontent.com",
+          redirect_uri: "http://localhost:8080/app.html", // "http://localhost:5500/app.html",
+          response_type: "token",
+          scope: "https://www.googleapis.com/auth/drive.file",
+          include_granted_scopes: "true",
+          state: "pass-through value",
+        };
+
+        // Add form parameters as hidden input values.
+        for (var p in params) {
+          var input = document.createElement("input");
+          input.setAttribute("type", "hidden");
+          input.setAttribute("name", p);
+          input.setAttribute("value", params[p]);
+          form.appendChild(input);
+        }
+
+        document.body.appendChild(form);
+
+        sessionStorage.setItem( "emailInput", document.getElementById("email").value)
+
+        form.submit();
+      }
+
+      async function pushFileToDrive(blob, token) {
+        const formData = new FormData();
+
+        const metadata = {
+          name: "Electronic Medical Records.pdf",
+          mimeType: "application/pdf",
+        };
+
+        formData.append(
+          "metadata",
+          new Blob([JSON.stringify(metadata)], { type: "application/json" })
+        );
+        formData.append("file", blob);
+
+        const options = {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        };
+
+        console.log("Starting uploading");
+
+        try {
+          const uploadResponse = await fetch(
+            "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+            options
+          );
+          const fileData = await uploadResponse.json();
+
+          if (uploadResponse.ok) {
+            console.log("EHR document uploaded successfully:", fileData);
+
+            // Share the uploaded PDF file
+            await shareFileWithUser(fileData.id, token);
+          } else {
+            console.error("Failed to upload EHR document:", fileData);
+          }
+        } catch (error) {
+          console.error("Error uploading EHR document:", error);
+        }
+      }
+
+      async function shareFileWithUser(fileId, token) {
+        
+        // var emailInput = document.getElementById("email").value;
+
+
+        var emailInput = sessionStorage.getItem( "emailInput")
+
+        console.log(emailInput)
+
+        const permissions = {
+          type: "user",
+          role: "reader",
+          emailAddress: emailInput, // "bmurenzi@andrew.cmu.edu",
+        };
+
+        const permissionsOptions = {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(permissions),
+        };
+
+        try {
+          const permissionsResponse = await fetch(
+            `https://www.googleapis.com/drive/v3/files/${fileId}/permissions`,
+            permissionsOptions
+          );
+          const permissionsData = await permissionsResponse.json();
+
+          if (permissionsResponse.ok) {
+            console.log("EHR document shared successfully:", permissionsData);
+          } else {
+            console.error("Failed to share EHR document:", permissionsData);
+          }
+        } catch (error) {
+          console.error("Error sharing EHR document:", error);
+        }
+      }
+
+      async function writeToPDF(json_data) {
+        const records = JSON.stringify(json_data);
+
+        const { jsPDF } = window.jspdf;
+        var doc = new jsPDF();
+
+        doc.setFontSize(16);
+        const offSet = 10;
+        let startY = 20;
+
+        doc.text(startY, 20, "Medical Records");
+        startY += 10;
+        doc.text(offSet, 30, "===================");
+        startY += 15;
+
+        const fontSize = 8;
+        const maxWidth = +doc.internal.pageSize.width;
+        const splitText = doc.splitTextToSize(
+          JSON.stringify(json_data),
+          maxWidth * 1.8
+        );
+        const textWidth = splitText.reduce(
+          (max, line) => Math.max(max, doc.getStringUnitWidth(line) * fontSize),
+          0
+        );
+        const lineHeight = fontSize * 1.2;
+        const numLines = Math.ceil(textWidth / maxWidth);
+
+        doc.setFontSize(fontSize);
+
+        splitText.forEach((line, index) => {
+          const xPos =
+            (doc.internal.pageSize.width -
+              doc.getStringUnitWidth(line) * fontSize) /
+            2;
+          const yPos = startY + index * lineHeight;
+          if (doc.internal.pageSize.height - yPos < lineHeight) {
+            doc.addPage();
+            doc.text(line, offSet, yPos);
+          } else {
+            doc.text(line, offSet, yPos);
+          }
+        });
+
+        // Generate the PDF as a blob object
+        const pdfBlob = doc.output("blob");
+
+        // Get token from current URL
+        const accessToken = new URL(window.location.href).hash
+          .split("&")
+          .reduce((acc, current) => {
+            const [key, value] = current.split("=");
+            if (key === "access_token") {
+              acc = decodeURIComponent(value);
+            }
+            return acc;
+          }, "");
+
+        // upload the PDF to drive
+        await pushFileToDrive(pdfBlob, accessToken);
+      }
+    </script>
   </body>
 </html>
