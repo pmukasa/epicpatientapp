@@ -39,7 +39,7 @@
       <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
       <span role="status">Loading...</span>
     </button>
-        
+
     <h1 class="container">Authorizing Request....</h1>
 
     <script>
@@ -56,7 +56,8 @@
               scope:
                 "PATIENT.READ PATIENT.SEARCH OBSERVATION.READ OBSERVATION.SEARCH",
               redirect_uri:
-                "https://pmukasa.github.io/epicpatientapp/launch.html",
+                // "https://pmukasa.github.io/epicpatientapp/launch.html",
+                "http://localhost:5500/launch.html",
               iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
               // access_token: "",
             },
@@ -65,12 +66,14 @@
           },
           {
             connection_details: {
-              client_id: "a19866e8-bdf3-4f53-85c8-7e399b4154fe",
+              client_id: // "a19866e8-bdf3-4f53-85c8-7e399b4154fe",
+              "287d0738-91ae-4081-9bd4-a5cd7808f95c",
               scope:
                 "patient/Patient.read patient/Observation.read online_access openid profile",
               state: generateStateValue(),
               redirect_uri:
-                "https://pmukasa.github.io/epicpatientapp/launch.html",
+                // "https://pmukasa.github.io/epicpatientapp/launch.html",
+                 "http://localhost:5500/launch.html",
               iss: "https://fhir-myrecord.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
               // access_token: "",
             },
@@ -123,6 +126,7 @@
           console.log("attempting to connect to FHIR");
 
           FHIR.oauth2.authorize(hospital.connection_details);
+          
         } else {
           console.log("done atleast a connection attempt to every server");          
           console.log(_all_hospital_data);
