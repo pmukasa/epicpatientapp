@@ -8,7 +8,7 @@
     <script src="./dist/fhirclient/build/fhir-client.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 
     <style>
       #main {
@@ -22,15 +22,9 @@
 
   <body>
     <div id="main"></div>
-    <!-- <button id="authorize_button" onclick="handleAuthClick()">
-      Authorize Drive Access
-    </button>
-
-    <pre id="content" style="white-space: pre-wrap"></pre> -->
+    <div id="qrcode" style="margin: auto; width: 400px"></div>
 
     <script>
-      //
-
       var myApp = {}; // will need to delete and use the one in the function later on
 
       function processRecord(_hospitalDetails) {
@@ -720,7 +714,7 @@ console.log("no");
         // Append Google Auth Button
         var div = document.createElement("div");
         div.id = "fhir-data";
-        div.innerHTML = `<div style="padding: 0 6rem;"><p style="line-height: 2.3;"><strong>EHR Data From FHIR: </strong></br></br> ${JSON.stringify(
+        div.innerHTML = `<div id='ehr_records' style="padding: 0 6rem;"><p style="line-height: 2.3;"><strong>EHR Data From FHIR: </strong></br></br> ${JSON.stringify(
           vital_signs_data
         )}</p>
         <br><br>
@@ -894,6 +888,8 @@ vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQ
           if (uploadResponse.ok) {
             console.log("EHR document uploaded successfully:", fileData);
 
+            generateQRCode(`https://drive.google.com/file/d/${fileData.id}/view?usp=drive_link`);
+
             // Share the uploaded PDF file
             await shareFileWithUser(fileData.id, token);
           } else {
@@ -907,7 +903,6 @@ vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQ
       async function shareFileWithUser(fileId, token) {
         
         // var emailInput = document.getElementById("email").value;
-
 
         var emailInput = sessionStorage.getItem( "emailInput")
 
@@ -1005,6 +1000,21 @@ vital_signs_data[loinc_code].results.push({ 'value': observation.resource.valueQ
 
         // upload the PDF to drive
         await pushFileToDrive(pdfBlob, accessToken);
+      }
+
+      function generateQRCode(document_url) {
+        var fhir_data_div = document.getElementById("ehr_records");
+        if (fhir_data_div) {
+          document.removeChild(fhir_data_div);
+        }
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+          text: document_url,
+          width: 300,
+          height: 300,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H,
+        });
       }
     </script>
   </body>
